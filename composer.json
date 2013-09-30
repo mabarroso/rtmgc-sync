@@ -1,0 +1,11 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "require": {
+        "bartosz-maciaszek/php-rtm": "dev-master"
+    },
+    "config": {
+        "bin-dir": "bin/"
+    }
+}
