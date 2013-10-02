@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $listCalendarList = array (
   'kind' => 'calendar#calendarList',
   'etag' => '"riS1FXjHtObfGZnFmNP8yHjrZcU/MGT2fZiSIa8YKmjL3WlYtHaswac"',

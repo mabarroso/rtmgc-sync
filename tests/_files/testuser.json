@@ -1,0 +1,73 @@
+{
+    "auth": {
+        "google_code": "",
+        "rtm_frob": ""
+    },
+    "configuration": {
+        "conflictResolution": "duplicate",
+        "Match": [
+            {
+                "id": 1,
+                "rtm": {
+                    "id":"25392426",
+                    "name":"List1",
+                },
+                "google": {
+                    "id":"ppcemf16ugnpefspnmj9jjpd08@group.calendar.google.com",
+                    "name":"RTM List 1",
+                    "backgroundColor":"#9a9cff",
+                    "foregroundColor":"#000000",
+                }
+            },
+            {
+                "id": 2,
+                "rtm": {
+                    "id":"25392428",
+                    "name":"List2",
+                },
+                "google": {
+                    "id":"ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com",
+                    "name":"RTM List 2",
+                    "backgroundColor":"#a47ae2",
+                    "foregroundColor":"#000000",
+                }
+            },
+        ]
+    },
+    "sync": {
+        "1": [
+            {
+                "rtm":"210833888",
+                "google":"c1tv9h466dm3ifd3olott04200",
+                "conflict":false,
+            },
+            {
+                "rtm":"210833961",
+                "google":"c1tv9h466dm3ifd3olott04201",
+                "conflict":false,
+            },
+            {
+                "rtm":"210834062",
+                "google":"c1tv9h466dm3ifd3olott04202",
+                "conflict":false,
+            },
+            {
+                "rtm":"210834146",
+                "google":"c1tv9h466dm3ifd3olott04203",
+                "conflict":false,
+            },
+            {
+                "rtm":"210834211",
+                "google":"c1tv9h466dm3ifd3olott04204",
+                "conflict":false,
+            },
+            {
+                "rtm":"210834264",
+                "google":"c1tv9h466dm3ifd3olott04205",
+                "conflict":false,
+            },
+        ],
+        "2":[
+        ],
+    }
+}
