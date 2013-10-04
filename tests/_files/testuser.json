@@ -1,7 +1,7 @@
 {
     "auth": {
         "google_code": "",
-        "rtm_frob": ""
+        "rtm_token": ""
     },
     "configuration": {
         "conflictResolution": "duplicate",
