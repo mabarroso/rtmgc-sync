@@ -28,8 +28,27 @@
  */
 class RememberTheMilk
 {
+    private $_lists;
+    private $_tasks;
 
-    public function testGetLists()
+    public function __construct()
+    {
+        $this->_lists = false;
+        $this->_tasks = array();
+    }
+
+    private function loadLists()
+    {
+
+    }
+
+    private function loadTasks($listId)
+    {
+
+    }
+
+
+    public function getLists()
     {
 
     }
