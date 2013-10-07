@@ -28,4 +28,26 @@
  */
 class RememberTheMilk
 {
+
+    public function testGetLists()
+    {
+
+    }
+
+    public function getListById($id)
+    {
+
+    }
+
+
+    public function getTasks($listId)
+    {
+
+    }
+
+
+    public function getTaskById($id)
+    {
+
+    }
 }
