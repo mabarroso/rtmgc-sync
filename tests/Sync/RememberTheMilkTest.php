@@ -41,7 +41,16 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->subject = new RememberTheMilk();
+        include 'tests/_files/rtm_service_lists.php';
+        include 'tests/_files/rtm_service_tasks.php';
+
+        $this->subject = $this->getMock('RememberTheMilk', array('loadLists', 'loadTasks'));
+        $this->subject->expects($this->any())
+            ->method('lists')
+            ->will($this->returnValue($service_lists));
+        $this->subject->expects($this->any())
+            ->method('tasks')
+            ->will($this->returnValue($service_tasks));
     }
 
     /**
@@ -53,4 +62,64 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->subject instanceof RememberTheMilk);
     }
+
+    /**
+     * [testGetLists description]
+     *
+     * @return none
+     */
+    public function testGetLists()
+    {
+        $lists = $this->subject->getLists();
+        $listsIds = array_keys($lists);
+
+        $this->assertEquals('25392426', $listsIds[0]);
+        $this->assertEquals('List1', $lists[$listsIds[0]]);
+
+        $this->assertEquals('33786422', $listsIds[11]);
+        $this->assertEquals('List9', $lists[$listsIds[11]]);
+    }
+
+    /**
+     * [testGetListById description]
+     *
+     * @return none
+     */
+    public function testGetListById()
+    {
+        $this->assertEquals('List1', $this->subject->getListById('25392426'));
+        $this->assertEquals('List9', $this->subject->getListById('33786422'));
+    }
+
+    /**
+     * [testGetTasks description]
+     *
+     * @return none
+     */
+    public function testGetTasks()
+    {
+        $tasks = $this->subject->getTasks('25392426');
+        $tasksIds = array_keys($tasks);
+
+        $this->assertEquals('210835293', $tasksIds[0]);
+        $this->assertEquals('ne1 event completed', $tasks[$tasksIds[0]]['name']);
+
+        $this->assertEquals('210834146', $tasksIds[7]);
+        $this->assertEquals('e3 event unchanged', $tasks[$tasksIds[7]]);
+    }
+
+    /**
+     * [testGetListById description]
+     *
+     * @return none
+     */
+    public function testGetTaskById()
+    {
+        $task = $this->subject->getTaskById('210835293');
+        $this->assertEquals('ne1 event completed', $task['name']);
+
+        $task = $this->subject->getTaskById('210834146');
+        $this->assertEquals('e3 event unchanged', $task['name']);
+    }
+
 }

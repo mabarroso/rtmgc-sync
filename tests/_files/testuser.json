@@ -37,33 +37,69 @@
     "sync": {
         "1": [
             {
-                "rtm":"210833888",
-                "google":"c1tv9h466dm3ifd3olott04200",
+                "rtm": {
+                    "id":"210833888",
+                    "last":"2013-09-01T10:20:30Z"
+                    },
+                "google": {
+                    "id":"c1tv9h466dm3ifd3olott04200",
+                    "last":"2013-09-01T10:20:30.000Z"
+                },
                 "conflict":false,
             },
             {
-                "rtm":"210833961",
-                "google":"c1tv9h466dm3ifd3olott04201",
+                "rtm": {
+                    "id":"210833961",
+                    "last":"2013-09-02T10:20:30Z"
+                    },
+                "google": {
+                    "id":"c1tv9h466dm3ifd3olott04201",
+                    "last":"2013-09-02T20:20:30.000Z"
+                },
                 "conflict":false,
             },
             {
-                "rtm":"210834062",
-                "google":"c1tv9h466dm3ifd3olott04202",
+                "rtm": {
+                    "id":"210834062",
+                    "last":"2013-09-03T20:20:30Z"
+                    },
+                "google": {
+                    "id":"c1tv9h466dm3ifd3olott04202",
+                    "last":"2013-09-03T10:20:30.000Z"
+                },
                 "conflict":false,
             },
             {
-                "rtm":"210834146",
-                "google":"c1tv9h466dm3ifd3olott04203",
+                "rtm": {
+                    "id":"210834146",
+                    "last":"2013-09-03T10:20:30Z"
+                    },
+                "google": {
+                    "id":"c1tv9h466dm3ifd3olott04203",
+                    "last":"2013-09-03T10:20:30.000Z"
+                },
                 "conflict":false,
             },
             {
-                "rtm":"210834211",
-                "google":"c1tv9h466dm3ifd3olott04204",
+                "rtm": {
+                    "id":"210834211",
+                    "last":"2013-09-02T10:20:30Z"
+                    },
+                "google": {
+                    "id":"c1tv9h466dm3ifd3olott04204",
+                    "last":"2013-09-02T20:20:30.000Z"
+                },
                 "conflict":false,
             },
             {
-                "rtm":"210834264",
-                "google":"c1tv9h466dm3ifd3olott04205",
+                "rtm": {
+                    "id":"210834264",
+                    "last":"2013-09-01T20:20:30Z"
+                    },
+                "google": {
+                    "id":"c1tv9h466dm3ifd3olott04205",
+                    "last":"2013-09-01T10:20:30.000Z"
+                },
                 "conflict":false,
             },
         ],
