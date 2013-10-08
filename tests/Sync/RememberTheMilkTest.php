@@ -44,7 +44,7 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
         include 'tests/_files/rtm_service_lists.php';
         include 'tests/_files/rtm_service_tasks.php';
 
-        $this->subject = $this->getMock('RememberTheMilk', array('loadLists', 'loadTasks'));
+        $this->subject = $this->getMock('RememberTheMilk', array('getListsFromAPI', 'getTasksFromAPI'));
         $this->subject->expects($this->any())
             ->method('lists')
             ->will($this->returnValue($service_lists));
