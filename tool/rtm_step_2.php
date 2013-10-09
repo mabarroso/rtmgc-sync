@@ -27,7 +27,7 @@ try
     $rtm->setAuthToken($response->getToken());
     echo "Token: ". $response->getToken()."\n";
     echo "Ejecuta el paso 3\n";
-    echo "  php auth_step_3.php ". $response->getToken()."\n";
+    echo "  php rtm_step_3.php ". $response->getToken()."\n";
 
     $rtm->getService(Rtm::SERVICE_AUTH)->checkToken();
 exit();
@@ -36,5 +36,5 @@ catch(Exception $e)
 {
     echo $e->message."\n";
     echo "Ejecuta el paso 1\n";
-    echo "  php auth_step_1.php\n";
+    echo "  php rtm_step_1.php\n";
 }

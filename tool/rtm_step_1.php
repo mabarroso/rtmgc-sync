@@ -36,7 +36,7 @@ exit();
         echo "Frob: ".($rtm->getFrob())."\n";
         echo "Auth: ".$rtm->getAuthUrl(Rtm::AUTH_TYPE_DELETE)."\n";
         echo "Ejecuta el paso 2 tras ir a la web\n";
-        echo "  php auth_step_2.php ".($rtm->getFrob())."\n";
+        echo "  php rtm_step_2.php ".($rtm->getFrob())."\n";
         exit();
     }
 }
