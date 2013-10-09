@@ -1,0 +1,245 @@
+{
+   "rsp":{
+      "stat":"ok",
+      "tasks":{
+         "rev":"jcnereposeg48kgscwwo4gowo4kwoow",
+         "list":{
+            "id":"25512901",
+            "taskseries":[
+               {
+                  "id":"210835293",
+                  "created":"2013-10-02T15:22:48Z",
+                  "modified":"2013-10-02T15:22:54Z",
+                  "name":"ne1 event completed",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":[
+
+                  ],
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346980201",
+                     "due":"",
+                     "has_due_time":"0",
+                     "added":"2013-10-02T15:22:48Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"0",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210835257",
+                  "created":"2013-10-02T15:22:32Z",
+                  "modified":"2013-10-02T15:22:32Z",
+                  "name":"ne0 event without date",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":{
+                     "tag":"mc3"
+                  },
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346980163",
+                     "due":"",
+                     "has_due_time":"0",
+                     "added":"2013-10-02T15:22:32Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"4",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210834211",
+                  "created":"2013-09-02T10:20:30Z",
+                  "modified":"2013-09-02T10:20:30Z",
+                  "name":"e4 event changed google appointment",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":{
+                     "tag":"tag2"
+                  },
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346974034",
+                     "due":"2013-09-01T08:00:00Z",
+                     "has_due_time":"1",
+                     "added":"2013-09-02T10:20:30Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"1",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210834264",
+                  "created":"2013-09-01T20:20:30Z",
+                  "modified":"2013-09-01T20:20:30Z",
+                  "name":"e5 event changed rtm appointment",
+                  "source":"js",
+                  "url":"http://google.com",
+                  "location_id":"",
+                  "tags":[
+
+                  ],
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346974455",
+                     "due":"2013-09-02T08:00:00Z",
+                     "has_due_time":"1",
+                     "added":"2013-09-01T20:20:30Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"0",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210833961",
+                  "created":"2013-09-02T10:20:30Z",
+                  "modified":"2013-09-02T10:20:30Z",
+                  "name":"e1 event changed google all day",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":[
+
+                  ],
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346972639",
+                     "due":"2013-09-02T22:00:00Z",
+                     "has_due_time":"1",
+                     "added":"2013-09-02T10:20:30Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"0",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210833888",
+                  "created":"2013-09-01T10:20:30Z",
+                  "modified":"2013-09-01T10:20:30Z",
+                  "name":"e0 event unchanged all day",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":{
+                     "tag":"tag1"
+                  },
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346972191",
+                     "due":"2013-08-31T22:00:00Z",
+                     "has_due_time":"1",
+                     "added":"2013-09-01T10:20:30Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"3",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210834062",
+                  "created":"2013-09-03T20:20:30Z",
+                  "modified":"2013-09-03T20:20:30Z",
+                  "name":"e2 event changed rtm all day",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":[
+
+                  ],
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346973202",
+                     "due":"2013-09-01T22:00:00Z",
+                     "has_due_time":"1",
+                     "added":"2013-09-03T20:20:30Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"17",
+                     "estimate":""
+                  }
+               },
+               {
+                  "id":"210834146",
+                  "created":"2013-09-03T10:20:30Z",
+                  "modified":"2013-09-03T10:20:30Z",
+                  "name":"e3 event unchanged appointment",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":[
+
+                  ],
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"346973651",
+                     "due":"2013-09-03T08:00:00Z",
+                     "has_due_time":"0",
+                     "added":"2013-09-03T10:20:30Z",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"0",
+                     "estimate":""
+                  }
+               }
+            ]
+         }
+      }
+   }
+}

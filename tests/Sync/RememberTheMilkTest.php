@@ -16,6 +16,20 @@
  */
 
 require_once 'src/Sync/RememberTheMilk.php';
+set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../../vendor/');
+
+/**
+ * [__autoload description]
+ *
+ * @param [type] $nombre_clase [description]
+ *
+ * @return none
+ */
+function __autoload($nombre_clase)
+{
+    include $nombre_clase . '.php';
+}
+use Rtm\Rtm;
 
 /**
  * AdTest
@@ -41,16 +55,16 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        include 'tests/_files/rtm_service_lists.php';
-        include 'tests/_files/rtm_service_tasks.php';
+        $rtm = new Rtm;
+        $rtmClient = $rtm->getClient();
 
         $this->subject = $this->getMock('RememberTheMilk', array('getListsFromAPI', 'getTasksFromAPI'));
         $this->subject->expects($this->any())
-            ->method('lists')
-            ->will($this->returnValue($service_lists));
+            ->method('getListsFromAPI')
+            ->will($this->returnValue($rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList()));
         $this->subject->expects($this->any())
-            ->method('tasks')
-            ->will($this->returnValue($service_tasks));
+            ->method('getTasksFromAPI')
+            ->will($this->returnValue($rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks.json'))->getResponse()->getTasks()->getList()->getTaskseries()));
     }
 
     /**
@@ -72,12 +86,11 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     {
         $lists = $this->subject->getLists();
         $listsIds = array_keys($lists);
+        $this->assertEquals('25392426', $listsIds[1]);
+        $this->assertEquals('List1', $lists[$listsIds[1]]->getName());
 
-        $this->assertEquals('25392426', $listsIds[0]);
-        $this->assertEquals('List1', $lists[$listsIds[0]]);
-
-        $this->assertEquals('33786422', $listsIds[11]);
-        $this->assertEquals('List9', $lists[$listsIds[11]]);
+        $this->assertEquals('33786422', $listsIds[10]);
+        $this->assertEquals('List9', $lists[$listsIds[10]]->getName());
     }
 
     /**
@@ -87,8 +100,8 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
      */
     public function testGetListById()
     {
-        $this->assertEquals('List1', $this->subject->getListById('25392426'));
-        $this->assertEquals('List9', $this->subject->getListById('33786422'));
+        $this->assertEquals('List1', $this->subject->getListById('25392426')->getName());
+        $this->assertEquals('List9', $this->subject->getListById('33786422')->getName());
     }
 
     /**
@@ -102,10 +115,10 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
         $tasksIds = array_keys($tasks);
 
         $this->assertEquals('210835293', $tasksIds[0]);
-        $this->assertEquals('ne1 event completed', $tasks[$tasksIds[0]]['name']);
+        $this->assertEquals('ne1 event completed', $tasks[$tasksIds[0]]->getName());
 
         $this->assertEquals('210834146', $tasksIds[7]);
-        $this->assertEquals('e3 event unchanged', $tasks[$tasksIds[7]]);
+        $this->assertEquals('e3 event unchanged appointment', $tasks[$tasksIds[7]]->getName());
     }
 
     /**
@@ -115,11 +128,11 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTaskById()
     {
-        $task = $this->subject->getTaskById('210835293');
-        $this->assertEquals('ne1 event completed', $task['name']);
+        $task = $this->subject->getTaskById('25392426', '210835293');
+        $this->assertEquals('ne1 event completed', $task->getName());
 
-        $task = $this->subject->getTaskById('210834146');
-        $this->assertEquals('e3 event unchanged', $task['name']);
+        $task = $this->subject->getTaskById('25392426', '210834146');
+        $this->assertEquals('e3 event unchanged appointment', $task->getName());
     }
 
 }

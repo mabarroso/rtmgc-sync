@@ -137,7 +137,7 @@ class RememberTheMilk
         if (!$this->_lists) $this->_loadLists();
         foreach ($this->_lists as $list) {
             if ($list->getSmart() == 0 && $list->getDeleted() == 0 && $list->getArchived() == 0) {
-                $lists[$list->getId()] = $list->getName();
+                $lists[$list->getId()] = $list;
             }
         }
         return $lists;
@@ -153,7 +153,12 @@ class RememberTheMilk
     public function getListById($id)
     {
         if (!$this->_lists) $this->_loadLists();
-
+        foreach ($this->_lists as $list) {
+            if ($id == $list->getId()) {
+                return $list;
+            }
+        }
+        return false;
     }
 
     /**
@@ -165,7 +170,14 @@ class RememberTheMilk
      */
     public function getTasks($listId)
     {
-        if (!$this->_lists) $this->_loadTasks($listId);
+        $tasks = array();
+        if (!$this->_tasks) $this->_loadTasks($listId);
+        foreach ($this->_tasks as $task) {
+            if ($task->getCompleted() == '' && $task->getDeleted() == '') {
+                $tasks[$task->getId()] = $task;
+            }
+        }
+        return $tasks;
 
     }
 
@@ -179,7 +191,12 @@ class RememberTheMilk
      */
     public function getTaskById($listId, $id)
     {
-        if (!$this->_lists) $this->_loadTasks($listId);
-
+        if (!$this->_tasks) $this->_loadTasks($listId);
+        foreach ($this->_tasks as $task) {
+            if ($id == $task->getId()) {
+                return $task;
+            }
+        }
+        return false;
     }
 }
