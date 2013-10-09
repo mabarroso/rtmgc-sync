@@ -178,7 +178,6 @@ class RememberTheMilk
             }
         }
         return $tasks;
-
     }
 
     /**
