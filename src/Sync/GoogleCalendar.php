@@ -179,7 +179,7 @@ class GoogleCalendar
      */
     public function getEvents($calendarId)
     {
-        if (!$this->_events) $this->_loadEvents();
+        if (!$this->_events) $this->_loadEvents($calendarId);
         if (count($this->_events) > 0)
             return $this->_events['items'];
         else
@@ -196,9 +196,9 @@ class GoogleCalendar
      */
     public function getEventById($calendarId, $id)
     {
-        if (!$this->_events) $this->_loadEvents();
-        if (count($this->_events) > 0) {
-            foreach ($this->_events as $event) {
+        if (!$this->_events) $this->_loadEvents($calendarId);
+        if (count($this->_events['items']) > 0) {
+            foreach ($this->_events['items'] as $event) {
                 if ($event['id'] == $id) return $event;
             }
         } else
