@@ -64,4 +64,33 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->subject instanceof GoogleCalendar);
     }
+
+    /**
+     * [testGetCalendar description]
+     *
+     * @return none
+     */
+    public function testGetCalendar()
+    {
+        $calendars = $this->subject->getCalendars();
+        $this->assertEquals('8vu9s3macbikbva5r1r2jj75do@group.calendar.google.com', $calendars[0]['id']);
+        $this->assertEquals('User calendar', $calendars[0]['summary']);
+
+        $this->assertEquals('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com', $calendars[3]['id']);
+        $this->assertEquals('RTM List 2', $calendars[3]['summary']);
+    }
+
+    /**
+     * [testGetCalendarById description]
+     *
+     * @return none
+     */
+    public function testGetCalendarById()
+    {
+        $calendar = $this->subject->getCalendarById('8vu9s3macbikbva5r1r2jj75do@group.calendar.google.com');
+        $this->assertEquals('User calendar', $calendar['summary']);
+        $calendar = $this->subject->getCalendarById('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com');
+        $this->assertEquals('RTM List 2', $calendar['summary']);
+    }
+
 }

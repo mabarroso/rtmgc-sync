@@ -162,8 +162,8 @@ class GoogleCalendar
     public function getCalendarById($id)
     {
         if (!$this->_calendars) $this->_loadCalendars();
-        if (count($this->_calendars) > 0) {
-            foreach ($this->_calendars as $calendar) {
+        if (count($this->_calendars['items']) > 0) {
+            foreach ($this->_calendars['items'] as $calendar) {
                 if ($calendar['id'] == $id) return $calendar;
             }
         } else
