@@ -42,6 +42,17 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->subject = new GoogleCalendar();
+
+        include 'tests/_files/google_listCalendarList.php';
+        include 'tests/_files/google_listEvents.php';
+
+        $this->subject = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI'));
+        $this->subject->expects($this->any())
+            ->method('getCalendarsFromAPI')
+            ->will($this->returnValue($listCalendarList));
+        $this->subject->expects($this->any())
+            ->method('getEventsFromAPI')
+            ->will($this->returnValue($listEvents));
     }
 
     /**
