@@ -30,7 +30,9 @@ require_once '../src/Sync.php';
  * @since     File available since Release 0.1
  */
 
-$sync = new Sync('sync.json');
+copy('sync.json', '../tmp/sync.json');
+$sync = new Sync('../tmp/sync.json');
 $sync->load();
-$sync->connect();
+//$sync->connect();
+$sync->sync();
 
