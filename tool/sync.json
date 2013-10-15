@@ -1,0 +1,39 @@
+{
+    "auth": {
+        "google_code": "{\"access_token\":\"ya29.AHES6ZTjaoO6SLNR7Rv2BWFmtoGyk56_2ZrRPJem7GncTTDfiOw5lw\",\"token_type\":\"Bearer\",\"expires_in\":3600,\"refresh_token\":\"1\/fu7ctCmycSIYY0qtUEISGHzAzA6LkBZvR2klEreyoS4\",\"created\":1381831398}",
+        "rtm_token": "877e38a752163211f864bf43d56f4da356258513"
+    },
+    "configuration": {
+        "conflictResolution": "duplicate",
+        "Match": [
+            {
+                "id": 1,
+                "rtm": {
+                    "id":"34368279",
+                    "name":"List1"
+                },
+                "google": {
+                    "id":"d79jradup3d1lrr711vngcjmc8@group.calendar.google.com",
+                    "name":"Calendar 1",
+                    "backgroundColor":"#9a9cff",
+                    "foregroundColor":"#000000"
+                }
+            },
+            {
+                "id": 2,
+                "rtm": {
+                    "id":"34366199",
+                    "name":"List2"
+                },
+                "google": {
+                    "id":"k9ncokp3d2attdau259h3n8gts@group.calendar.google.com",
+                    "name":"Calendar 2",
+                    "backgroundColor":"#a47ae2",
+                    "foregroundColor":"#000000"
+                }
+            }
+        ]
+    },
+    "sync": {
+    }
+}
