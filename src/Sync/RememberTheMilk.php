@@ -1,6 +1,7 @@
 <?php
 /**
- * RememberTheMilk
+ * RememberTheMilk.php
+ * RememberTheMilk API
  *
  * PHP version 5.2
  *
@@ -14,8 +15,10 @@
  * @since     File available since Release 0.1
  */
 
+use Rtm\Rtm;
+
 /**
- * AdTest
+ * RememberTheMilk
  *
  * @category  RTMGC
  * @package   Sync

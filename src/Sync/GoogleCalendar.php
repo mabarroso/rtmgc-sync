@@ -1,6 +1,7 @@
 <?php
 /**
- * GoogleCalendar
+ * GoogleCalendar.php
+ * GoogleCalendar API
  *
  * PHP version 5.2
  *
@@ -19,7 +20,7 @@ require_once 'google-api/src/Google_Client.php';
 require_once 'google-api/src/contrib/Google_CalendarService.php';
 
 /**
- * AdTest
+ * GoogleCalendar
  *
  * @category  RTMGC
  * @package   Sync
