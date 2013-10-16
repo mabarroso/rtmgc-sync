@@ -214,12 +214,12 @@ class GoogleCalendar
      * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
      * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
      * @param boolean $location   [description]
-     * @param boolean $fgColor    [description]
      * @param boolean $bgColor    [description]
+     * @param boolean $fgColor    [description]
      *
      * @return [type]             [description]
      */
-    public function insertEvent($calendarId, $summary, $startDate, $endDate, $location = false, $fgColor = false, $bgColor = false)
+    public function insertEvent($calendarId, $summary, $startDate, $endDate, $location = false, $bgColor = false, $fgColor = false)
     {
         $event = new Google_Event();
         $event->setSummary($summary);
@@ -238,6 +238,6 @@ class GoogleCalendar
 
         $createdEvent = $this->_calendar->events->insert($calendarId, $event); //Returns array not an object
 
-        echo $createdEvent->id;
+        return $createdEvent;
     }
 }
