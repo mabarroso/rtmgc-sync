@@ -39,6 +39,7 @@ class Sync
     private $_gc;
     private $_lists;
     private $_calendars;
+    public $results;
 
     /**
      * [__construct description]
@@ -50,6 +51,77 @@ class Sync
         $this->_filePath = $filePath;
         $this->_rtm      = new RememberTheMilk;
         $this->_gc       = new GoogleCalendar;
+        $this->clear();
+    }
+
+    /**
+     * Clear previous results
+     *
+     * @return none
+     */
+    public function clear()
+    {
+        $this->results = array(
+            'ok'        => array(),
+            'error'     => array(),
+            'warning'   => array(),
+            'log'       => array(),
+            );
+    }
+
+    /**
+     * [ok description]
+     *
+     * @param String $info Message description
+     *
+     * @return Boolean
+     */
+    protected function ok($info)
+    {
+        $this->log('ok', $info);
+        return true;
+    }
+
+    /**
+     * [error description]
+     *
+     * @param String $info Message description
+     *
+     * @return Boolean
+     */
+    protected function error($info)
+    {
+        $this->log('error', $info);
+        return false;
+    }
+
+    /**
+     * [warning description]
+     *
+     * @param String $info Message description
+     *
+     * @return Boolean
+     */
+
+    protected function warning($info)
+    {
+        $this->log('warning', $info);
+        return true;
+    }
+
+    /**
+     * [log description]
+     *
+     * @param String $level Message description
+     * @param String $info  Message description
+     *
+     * @return Boolean
+     */
+
+    protected function log($level, $info)
+    {
+        $this->results[$level][] = $info;
+        $this->results['log'][] = date('Y-m-d H:i:s').' '.$info;
     }
 
     /**
@@ -94,7 +166,7 @@ class Sync
         $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->_data['auth']['google_code']);
 
         $this->_lists = $this->_rtm->getLists();
-        //$this->_calendars = $this->_gc->getCalendars();
+        //TODO: *** $this->_calendars = $this->_gc->getCalendars();
     }
 
     /**
@@ -104,6 +176,7 @@ class Sync
      */
     public function sync()
     {
+        $this->clear();
         $newSync = array();
         foreach ( $this->_data['configuration']['Match'] as $match) {
             $newSync[$match['id']] = $this->_syncMatch($match);
@@ -145,16 +218,14 @@ class Sync
      */
     private function _syncMatch($match)
     {
-        $eventsRTM = array(); //TODO: Read from "sync" for $match['id']
-        $eventsGC  = array(); //TODO: Read from "sync" for $match['id']
+        $eventsRTM = array();
+        $eventsGC  = array();
         $eventsNew = array();
 
         $this->_fillEventsByMathId($match['id'], $eventsRTM, $eventsGC);
 
-        echo "{$match['id']}\n";
-
         $tasks      = $this->_rtm->getTasks($match['rtm']['id']);
-        //$events     = $this->_gc->getEvents($match['google']['id']);
+        //TODO: *** $events     = $this->_gc->getEvents($match['google']['id']);
 
         $this->_syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
         $this->_syncMatchGC2RTM($events, $eventsGC, $eventsRTM);
@@ -183,10 +254,10 @@ class Sync
 
         // check new or modified
         foreach ($tasks as $taskId => $task) {
-echo "$taskId - ".$task->getName()." ".$task->getModified()." -> ".$task->getTask()->get('due')." (".$task->getTask()->get('has_due_time').") \n";
             $date = $task->getTask()->get('due');
             if (strlen($date) < 2) {
                 // skip, no due date
+                $this->ok("Skip RTM task $taskId. Not due date '{$task->getName()}'");
             } else {
                 if (!isset($eventsRTM[$taskId])) {
                     // New: Not in RTM and GC
@@ -207,23 +278,21 @@ echo "$taskId - ".$task->getName()." ".$task->getModified()." -> ".$task->getTas
                         ),
                         'conflict' => false,
                     );
-    echo "  new\n";
+                    $this->ok("Add RTM task $taskId to GC: $date '{$task->getName()}'");
                 } else if ($task->getModified() != $eventsRTM[$taskId]['last']) {
                     // updated in RTM
-    echo "  updated {$task->getModified()} != {$eventsRTM[$taskId]['last']} \n";
+                    $this->ok("Update RTM task $taskId in GC: ({$task->getModified()} != {$eventsRTM[$taskId]['last']}) $date '{$task->getName()}'");
                 } else {
                     // no changes
                     $eventsNew[] = $this->_data['sync'][$match['id']][$eventsRTM[$taskId]['index']];
                     $eventsNew[count($eventsNew)-1]['halftrue'] = true;
-
-    echo "  no changes\n";
+                    $this->ok("Preserve RTM task $taskId in GC (halftrue) $date '{$task->getName()}'");
                 }
             }
 
         }
 
         // check deleted
-
         echo "  _syncMatchRTM2GC\n";
     }
 
@@ -238,8 +307,8 @@ echo "$taskId - ".$task->getName()." ".$task->getModified()." -> ".$task->getTas
      */
     private function _syncMatchGC2RTM(&$events, &$eventsGC, &$eventsRTM)
     {
-        # check new or modified
-        # check deleted
+        // check new or modified
+        // check deleted
         echo "  _syncMatchGC2RTM\n";
     }
 }

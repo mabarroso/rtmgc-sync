@@ -31,11 +31,12 @@ require_once '../src/Sync.php';
  */
 
 $syncFile = '../tmp/sync.json';
-if (!file_exists($syncFile)) {}
+//if (!file_exists($syncFile)) {
     copy('sync.json', $syncFile);
-}
+//}
 $sync = new Sync($syncFile);
 $sync->load();
 $sync->connect();
 $sync->sync();
 
+echo var_export($sync->results['log'], true);
