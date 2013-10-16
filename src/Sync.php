@@ -257,7 +257,7 @@ class Sync
             $date = $task->getTask()->get('due');
             if (strlen($date) < 2) {
                 // skip, no due date
-                $this->ok("Skip RTM task $taskId. Not due date '{$task->getName()}'");
+                $this->ok("Skip RTM task $taskId. Not due date {$task->getName()}'");
             } else {
                 if (!isset($eventsRTM[$taskId])) {
                     // New: Not in RTM and GC
