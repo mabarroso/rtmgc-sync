@@ -205,4 +205,39 @@ class GoogleCalendar
         } else
             return false;
     }
+
+    /**
+     * [insertEvent description]
+     *
+     * @param [type]  $calendarId [description]*
+     * @param [type]  $summary    [description]
+     * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
+     * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
+     * @param boolean $location   [description]
+     * @param boolean $fgColor    [description]
+     * @param boolean $bgColor    [description]
+     *
+     * @return [type]             [description]
+     */
+    public function insertEvent($calendarId, $summary, $startDate, $endDate, $location = false, $fgColor = false, $bgColor = false)
+    {
+        $event = new Google_Event();
+        $event->setSummary($summary);
+        if ($location) {
+            $event->setLocation($location);
+        }
+        $start = new Google_EventDateTime();
+        $start->setDateTime($startDate);
+        $event->setStart($start);
+        $end = new Google_EventDateTime();
+        $end->setDateTime($endDate);
+        $event->setEnd($end);
+
+        // TODO: fgColor
+        // TODO: bgColor
+
+        $createdEvent = $this->_calendar->events->insert($calendarId, $event); //Returns array not an object
+
+        echo $createdEvent->id;
+    }
 }
