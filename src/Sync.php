@@ -34,7 +34,7 @@ require 'Sync/GoogleCalendar.php';
 class Sync
 {
     private $_filePath;
-    private $_data;
+    public $data;
     private $_rtm;
     private $_gc;
     public $lists;
@@ -146,7 +146,7 @@ class Sync
     public function load()
     {
         $data = file_get_contents($this->_filePath);
-        $this->_data = json_decode($data, true);
+        $this->data = json_decode($data, true);
         $this->ok("sync data loaded");
     }
 
@@ -157,7 +157,7 @@ class Sync
      */
     public function save()
     {
-        file_put_contents($this->_filePath, json_encode($this->_data));
+        file_put_contents($this->_filePath, json_encode($this->data));
         $this->ok("sync data saved");
     }
 
@@ -168,7 +168,7 @@ class Sync
      */
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
     }
 
     /**
@@ -179,14 +179,14 @@ class Sync
     public function connect()
     {
         try {
-            $this->_rtm->connect(RTM_APIKEY, RTM_SECRET, $this->_data['auth']['rtm_token']);
+            $this->_rtm->connect(RTM_APIKEY, RTM_SECRET, $this->data['auth']['rtm_token']);
             $this->ok("Connected to RTM");
         } catch(Exception $e) {
             $this->warning("Error connecting to RTM {$e->getMessage()}");
             throw new Exception($e->getMessage());
         }
         try {
-            $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->_data['auth']['google_code']);
+            $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->data['auth']['google_code']);
             $this->ok("Connected to Google");
         } catch(Exception $e) {
             $this->warning("Error connecting to Google {$e->getMessage()}");
@@ -235,16 +235,16 @@ class Sync
         //TODO: *** $this->getCalendars();
 
         $newSync = array();
-        foreach ( $this->_data['configuration']['Match'] as $match) {
+        foreach ( $this->data['configuration']['Match'] as $match) {
             $newSync[$match['id']] = $this->_syncMatch($match);
         }
-        $this->_data['sync'] = $newSync;
+        $this->data['sync'] = $newSync;
         $this->save();
     }
 
 
     /**
-     * [_fillEventsByMathId description]
+     * [fillEventsByMathId description]
      *
      * @param [type] $mathId     [description]
      * @param [type] &$eventsRTM [description]
@@ -252,12 +252,12 @@ class Sync
      *
      * @return [type]             [description]
      */
-    private function _fillEventsByMathId($mathId, &$eventsRTM, &$eventsGC)
+    public function fillEventsByMathId($mathId, &$eventsRTM, &$eventsGC)
     {
-        if (!isset($this->_data['sync'][$mathId]))
+        if (!isset($this->data['sync'][$mathId]))
             return;
 
-        foreach ($this->_data['sync'][$mathId] as $index => $eventCouple) {
+        foreach ($this->data['sync'][$mathId] as $index => $eventCouple) {
             $eventsRTM[$eventCouple['rtm']['id']] = $eventCouple['rtm'];
             $eventsGC[$eventCouple['google']['id']] = $eventCouple['google'];
 
@@ -279,7 +279,7 @@ class Sync
         $eventsGC  = array();
         $eventsNew = array();
 
-        $this->_fillEventsByMathId($match['id'], $eventsRTM, $eventsGC);
+        $this->fillEventsByMathId($match['id'], $eventsRTM, $eventsGC);
 
         $tasks      = $this->_rtm->getTasks($match['rtm']['id']);
         //TODO: *** $events     = $this->_gc->getEvents($match['google']['id']);
@@ -341,7 +341,7 @@ class Sync
                     $this->ok("Update RTM task $taskId in GC: ({$task->getModified()} != {$eventsRTM[$taskId]['last']}) $date '{$task->getName()}'");
                 } else {
                     // no changes
-                    $eventsNew[] = $this->_data['sync'][$match['id']][$eventsRTM[$taskId]['index']];
+                    $eventsNew[] = $this->data['sync'][$match['id']][$eventsRTM[$taskId]['index']];
                     $eventsNew[count($eventsNew)-1]['halftrue'] = true;
                     $this->ok("Preserve RTM task $taskId in GC (halftrue) $date '{$task->getName()}'");
                 }

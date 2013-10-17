@@ -220,4 +220,31 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('RTM List 2', $this->subject->calendars[3]['summary']);
     }
 
+    /**
+     * [testSync description]
+     *
+     * @return none
+     */
+    public function testSync()
+    {
+    }
+
+    /**
+     * [testSync description]
+     *
+     * @return none
+     */
+    public function testFillEventsByMathId()
+    {
+        $eventsRTM  = array();
+        $eventsGC   = array();
+
+        $this->subject->getLists();
+        $this->subject->getCalendars();
+        $this->subject->fillEventsByMathId(1, $eventsRTM, $eventsGC);
+
+        $this->assertEquals('210833888', $eventsRTM['210833888']['id']);
+        $this->assertEquals('c1tv9h466dm3ifd3olott04200', $eventsGC['c1tv9h466dm3ifd3olott04200']['id']);
+    }
+
 }
