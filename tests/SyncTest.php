@@ -36,6 +36,8 @@ class SyncTest extends PHPUnit_Framework_TestCase
 {
     protected $subject;
 
+    const SYNC_FILE = 'tmp/testuser.json';
+
     /**
      * Constructor
      *
@@ -43,7 +45,8 @@ class SyncTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->subject = new Sync('tests/_files/testuser.json');
+        copy('tests/_files/testuser.json', self::SYNC_FILE);
+        $this->subject = new Sync(self::SYNC_FILE);
 
         $rtm = new Rtm;
         $rtmClient = $rtm->getClient();
@@ -81,4 +84,118 @@ class SyncTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->subject instanceof Sync);
     }
+
+    /**
+     * [testClear description]
+     *
+     * @return none
+     */
+    public function testClear()
+    {
+        $this->subject->clear();
+        $this->assertCount(4, $this->subject->results);
+        $this->assertCount(0, $this->subject->results['ok']);
+        $this->assertCount(0, $this->subject->results['error']);
+        $this->assertCount(0, $this->subject->results['warning']);
+        $this->assertCount(0, $this->subject->results['log']);
+    }
+
+    /**
+     * [testOk description]
+     *
+     * @return none
+     */
+    public function testOk()
+    {
+        //$this->subject->clear();
+        //$this->subject->ok('test');
+        //$this->assertCount(1, $this->subject->results['ok']);
+        //$this->assertCount(1, $this->subject->results['log']);
+    }
+
+    /**
+     * [testError description]
+     *
+     * @return none
+     */
+    public function testError()
+    {
+        //$this->subject->clear();
+        //$this->subject->error('test');
+        //$this->assertCount(1, $this->subject->results['error']);
+        //$this->assertCount(1, $this->subject->results['log']);
+    }
+
+    /**
+     * [testWarning description]
+     *
+     * @return none
+     */
+    public function testWarning()
+    {
+        //$this->subject->clear();
+        //$this->subject->warning('test');
+        //$this->assertCount(1, $this->subject->results['warning']);
+        //$this->assertCount(1, $this->subject->results['log']);
+    }
+
+    /**
+     * [testLog description]
+     *
+     * @return none
+     */
+    public function testLog()
+    {
+        //$this->subject->clear();
+        //$this->subject->log('test');
+        //$this->assertCount(1, $this->subject->results['log']);
+    }
+
+    /**
+     * [testLoad description]
+     *
+     * @return none
+     */
+    public function testLoad()
+    {
+    }
+
+    /**
+     * [testSave description]
+     *
+     * @return none
+     */
+    public function testSave()
+    {
+    }
+
+    /**
+     * [testGetData description]
+     *
+     * @return none
+     */
+    public function testGetData()
+    {
+    }
+
+    /**
+     * [testConnect description]
+     *
+     * @return none
+     */
+    public function testConnect()
+    {
+    }
+
+    /**
+     * [testGetLists description]
+     *
+     * @return none
+     */
+    public function testGetLists()
+    {
+        $this->subject->getLists();
+//        print_r ($this->subject->lists);
+    }
+
 }

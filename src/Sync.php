@@ -37,8 +37,8 @@ class Sync
     private $_data;
     private $_rtm;
     private $_gc;
-    private $_lists;
-    private $_calendars;
+    public $lists;
+    public $calendars;
     public $results;
 
     /**
@@ -64,8 +64,8 @@ class Sync
      */
     public function setMocks($rememberTheMilk, $googleCalendar)
     {
-        $this->_rtm = new $rememberTheMilk;
-        $this->_gc  = new $googleCalendar;
+        $this->_rtm = $rememberTheMilk;
+        $this->_gc  = $googleCalendar;
     }
 
     /**
@@ -147,6 +147,7 @@ class Sync
     {
         $data = file_get_contents($this->_filePath);
         $this->_data = json_decode($data, true);
+        $this->ok("sync data loaded");
     }
 
     /**
@@ -157,6 +158,7 @@ class Sync
     public function save()
     {
         file_put_contents($this->_filePath, json_encode($this->_data));
+        $this->ok("sync data saved");
     }
 
     /**
@@ -176,8 +178,40 @@ class Sync
      */
     public function connect()
     {
-        $this->_rtm->connect(RTM_APIKEY, RTM_SECRET, $this->_data['auth']['rtm_token']);
-        $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->_data['auth']['google_code']);
+        try {
+            $this->_rtm->connect(RTM_APIKEY, RTM_SECRET, $this->_data['auth']['rtm_token']);
+            $this->ok("Connected to RTM");
+        } catch(Exception $e) {
+            $this->warning("Error connecting to RTM {$e->getMessage()}");
+            throw new Exception($e->getMessage());
+        }
+        try {
+            $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->_data['auth']['google_code']);
+            $this->ok("Connected to Google");
+        } catch(Exception $e) {
+            $this->warning("Error connecting to Google {$e->getMessage()}");
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * [getLists description]
+     *
+     * @return [type] [description]
+     */
+    public function getLists()
+    {
+        $this->lists = $this->_rtm->getLists();
+    }
+
+    /**
+     * [getCalendars description]
+     *
+     * @return [type] [description]
+     */
+    public function getCalendars()
+    {
+        //TODO: *** $this->calendars = $this->_gc->getCalendars();
     }
 
     /**
@@ -188,9 +222,17 @@ class Sync
     public function sync()
     {
         $this->clear();
+        $this->load();
 
-        $this->_lists = $this->_rtm->getLists();
-        //TODO: *** $this->_calendars = $this->_gc->getCalendars();
+        try {
+            $this->connect();
+        } catch(Exception $e) {
+            $this->error("Error connecting to service provider");
+            return false;
+        }
+
+        $this->getLists();
+        //TODO: *** $this->getCalendars();
 
         $newSync = array();
         foreach ( $this->_data['configuration']['Match'] as $match) {

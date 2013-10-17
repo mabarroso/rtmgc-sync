@@ -78,7 +78,7 @@ class RememberTheMilk
             $this->_rtm->getService(Rtm::SERVICE_AUTH)->checkToken();
         } catch(Exception $e) {
             $this->_rtm = false;
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
     }
 

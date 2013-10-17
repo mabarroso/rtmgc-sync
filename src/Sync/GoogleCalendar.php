@@ -88,7 +88,7 @@ class GoogleCalendar
         } catch(Exception $e) {
             $this->_client = false;
             $this->_calendar = false;
-            throw new Exception($e->message);
+            throw new Exception($e->getMessage());
         }
     }
 

@@ -35,8 +35,6 @@ $syncFile = '../tmp/sync.json';
     copy('sync.json', $syncFile);
 //}
 $sync = new Sync($syncFile);
-$sync->load();
-$sync->connect();
 $sync->sync();
 
 echo var_export($sync->results['log'], true);
