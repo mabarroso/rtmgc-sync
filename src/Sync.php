@@ -55,6 +55,20 @@ class Sync
     }
 
     /**
+     * [setMocks description]
+     *
+     * @param RememberTheMilk $rememberTheMilk Mocked class for tests
+     * @param GoogleCalendar  $googleCalendar  Mocked class for tests
+     *
+     * @return none
+     */
+    public function setMocks($rememberTheMilk, $googleCalendar)
+    {
+        $this->_rtm = new $rememberTheMilk;
+        $this->_gc  = new $googleCalendar;
+    }
+
+    /**
      * Clear previous results
      *
      * @return none
@@ -164,9 +178,6 @@ class Sync
     {
         $this->_rtm->connect(RTM_APIKEY, RTM_SECRET, $this->_data['auth']['rtm_token']);
         $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->_data['auth']['google_code']);
-
-        $this->_lists = $this->_rtm->getLists();
-        //TODO: *** $this->_calendars = $this->_gc->getCalendars();
     }
 
     /**
@@ -177,6 +188,10 @@ class Sync
     public function sync()
     {
         $this->clear();
+
+        $this->_lists = $this->_rtm->getLists();
+        //TODO: *** $this->_calendars = $this->_gc->getCalendars();
+
         $newSync = array();
         foreach ( $this->_data['configuration']['Match'] as $match) {
             $newSync[$match['id']] = $this->_syncMatch($match);

@@ -18,7 +18,7 @@
 require_once 'src/Sync/GoogleCalendar.php';
 
 /**
- * AdTest
+ * GoogleCalendar
  *
  * @category   RTMGC
  * @package    Sync

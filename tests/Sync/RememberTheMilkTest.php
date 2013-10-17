@@ -16,23 +16,11 @@
  */
 
 require_once 'src/Sync/RememberTheMilk.php';
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../../vendor/');
 
-/**
- * [__autoload description]
- *
- * @param [type] $nombre_clase [description]
- *
- * @return none
- */
-function __autoload($nombre_clase)
-{
-    include $nombre_clase . '.php';
-}
 use Rtm\Rtm;
 
 /**
- * AdTest
+ * RememberTheMilk
  *
  * @category   RTMGC
  * @package    Sync
