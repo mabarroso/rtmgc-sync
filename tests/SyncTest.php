@@ -195,7 +195,29 @@ class SyncTest extends PHPUnit_Framework_TestCase
     public function testGetLists()
     {
         $this->subject->getLists();
-//        print_r ($this->subject->lists);
+
+        $listsIds = array_keys($this->subject->lists);
+        $this->assertEquals('25392426', $listsIds[1]);
+        $this->assertEquals('List1', $this->subject->lists[$listsIds[1]]->getName());
+
+        $this->assertEquals('33786422', $listsIds[10]);
+        $this->assertEquals('List9', $this->subject->lists[$listsIds[10]]->getName());
+    }
+
+    /**
+     * [testGetCalendars description]
+     *
+     * @return none
+     */
+    public function testGetCalendars()
+    {
+        $this->subject->getCalendars();
+
+        $this->assertEquals('8vu9s3macbikbva5r1r2jj75do@group.calendar.google.com', $this->subject->calendars[0]['id']);
+        $this->assertEquals('User calendar', $this->subject->calendars[0]['summary']);
+
+        $this->assertEquals('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com', $this->subject->calendars[3]['id']);
+        $this->assertEquals('RTM List 2', $this->subject->calendars[3]['summary']);
     }
 
 }

@@ -211,7 +211,7 @@ class Sync
      */
     public function getCalendars()
     {
-        //TODO: *** $this->calendars = $this->_gc->getCalendars();
+        $this->calendars = $this->_gc->getCalendars();
     }
 
     /**
