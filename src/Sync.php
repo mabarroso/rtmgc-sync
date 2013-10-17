@@ -35,8 +35,8 @@ class Sync
 {
     private $_filePath;
     public $data;
-    private $_rtm;
-    private $_gc;
+    public $rtm;
+    public $gc;
     public $lists;
     public $calendars;
     public $results;
@@ -49,8 +49,8 @@ class Sync
     public function __construct($filePath)
     {
         $this->_filePath = $filePath;
-        $this->_rtm      = new RememberTheMilk;
-        $this->_gc       = new GoogleCalendar;
+        $this->rtm      = new RememberTheMilk;
+        $this->gc       = new GoogleCalendar;
         $this->clear();
     }
 
@@ -64,8 +64,8 @@ class Sync
      */
     public function setMocks($rememberTheMilk, $googleCalendar)
     {
-        $this->_rtm = $rememberTheMilk;
-        $this->_gc  = $googleCalendar;
+        $this->rtm = $rememberTheMilk;
+        $this->gc  = $googleCalendar;
     }
 
     /**
@@ -179,14 +179,14 @@ class Sync
     public function connect()
     {
         try {
-            $this->_rtm->connect(RTM_APIKEY, RTM_SECRET, $this->data['auth']['rtm_token']);
+            $this->rtm->connect(RTM_APIKEY, RTM_SECRET, $this->data['auth']['rtm_token']);
             $this->ok("Connected to RTM");
         } catch(Exception $e) {
             $this->warning("Error connecting to RTM {$e->getMessage()}");
             throw new Exception($e->getMessage());
         }
         try {
-            $this->_gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->data['auth']['google_code']);
+            $this->gc->connect(GOOGLE_CLIENTID, GOOGLE_CLIENTSECRET, $this->data['auth']['google_code']);
             $this->ok("Connected to Google");
         } catch(Exception $e) {
             $this->warning("Error connecting to Google {$e->getMessage()}");
@@ -201,7 +201,7 @@ class Sync
      */
     public function getLists()
     {
-        $this->lists = $this->_rtm->getLists();
+        $this->lists = $this->rtm->getLists();
     }
 
     /**
@@ -211,7 +211,7 @@ class Sync
      */
     public function getCalendars()
     {
-        $this->calendars = $this->_gc->getCalendars();
+        $this->calendars = $this->gc->getCalendars();
     }
 
     /**
@@ -244,20 +244,20 @@ class Sync
 
 
     /**
-     * [fillEventsByMathId description]
+     * [fillEventsByMatchId description]
      *
-     * @param [type] $mathId     [description]
+     * @param [type] $matchId     [description]
      * @param [type] &$eventsRTM [description]
      * @param [type] &$eventsGC  [description]
      *
      * @return [type]             [description]
      */
-    public function fillEventsByMathId($mathId, &$eventsRTM, &$eventsGC)
+    public function fillEventsByMatchId($matchId, &$eventsRTM, &$eventsGC)
     {
-        if (!isset($this->data['sync'][$mathId]))
+        if (!isset($this->data['sync'][$matchId]))
             return;
 
-        foreach ($this->data['sync'][$mathId] as $index => $eventCouple) {
+        foreach ($this->data['sync'][$matchId] as $index => $eventCouple) {
             $eventsRTM[$eventCouple['rtm']['id']] = $eventCouple['rtm'];
             $eventsGC[$eventCouple['google']['id']] = $eventCouple['google'];
 
@@ -275,17 +275,17 @@ class Sync
      */
     private function _syncMatch($match)
     {
-        $eventsRTM = array();
-        $eventsGC  = array();
-        $eventsNew = array();
+        $eventsRTM  = array();
+        $eventsGC   = array();
+        $eventsNew  = array();
 
-        $this->fillEventsByMathId($match['id'], $eventsRTM, $eventsGC);
+        $this->fillEventsByMatchId($match['id'], $eventsRTM, $eventsGC);
 
-        $tasks      = $this->_rtm->getTasks($match['rtm']['id']);
-        //TODO: *** $events     = $this->_gc->getEvents($match['google']['id']);
+        $tasks      = $this->rtm->getTasks($match['rtm']['id']);
+        //TODO: *** $events     = $this->gc->getEvents($match['google']['id']);
 
-        $this->_syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
-        $this->_syncMatchGC2RTM($events, $eventsGC, $eventsRTM);
+        $this->syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
+        $this->syncMatchGC2RTM($events, $eventsGC, $eventsRTM);
         return $eventsNew;
     }
 
@@ -301,7 +301,7 @@ class Sync
      *
      * @return [type]            [description]
      */
-    private function _syncMatchRTM2GC(&$match, &$tasks, &$events, &$eventsNew, &$eventsGC, &$eventsRTM)
+    public function syncMatchRTM2GC(&$match, &$tasks, &$events, &$eventsNew, &$eventsGC, &$eventsRTM)
     {
         $listId     = $match['rtm']['id'];
         $calendarId = $match['google']['id'];
@@ -319,7 +319,7 @@ class Sync
                 if (!isset($eventsRTM[$taskId])) {
                     // New: Not in RTM and GC
                     // TODO: Location
-                    $createdEvent = $this->_gc->insertEvent(
+                    $createdEvent = $this->gc->insertEvent(
                         $calendarId, $task->getName(), $date, $date,
                         false, $match['google']['backgroundColor'], $match['google']['foregroundColor']
                     );
@@ -362,10 +362,10 @@ class Sync
      *
      * @return [type]            [description]
      */
-    private function _syncMatchGC2RTM(&$events, &$eventsGC, &$eventsRTM)
+    public function syncMatchGC2RTM(&$events, &$eventsGC, &$eventsRTM)
     {
         // check new or modified
         // check deleted
-        echo "  _syncMatchGC2RTM\n";
+        echo "  syncMatchGC2RTM\n";
     }
 }

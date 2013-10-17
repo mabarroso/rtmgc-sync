@@ -62,13 +62,23 @@ class SyncTest extends PHPUnit_Framework_TestCase
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
 
-        $googleCalendar = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI'));
+        $googleCalendar = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI', 'insertEvent'));
         $googleCalendar->expects($this->any())
             ->method('getCalendarsFromAPI')
             ->will($this->returnValue($listCalendarList));
         $googleCalendar->expects($this->any())
             ->method('getEventsFromAPI')
             ->will($this->returnValue($listEvents));
+        $googleCalendar->expects($this->any())
+            ->method('insertEvent')
+            ->will(
+                $this->returnValue(
+                    array(
+                        'id' => 'event_id',
+                        'updated' => 'updated_date',
+                    )
+                )
+            );
 
         $this->subject->setMocks($rememberTheMilk, $googleCalendar);
 
@@ -230,21 +240,53 @@ class SyncTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * [testSync description]
+     * [testFillEventsByMatchId description]
      *
      * @return none
      */
-    public function testFillEventsByMathId()
+    public function testFillEventsByMatchId()
     {
+        $match = $this->subject->data['configuration']['Match'][0];
+
         $eventsRTM  = array();
         $eventsGC   = array();
-
-        $this->subject->getLists();
-        $this->subject->getCalendars();
-        $this->subject->fillEventsByMathId(1, $eventsRTM, $eventsGC);
+        $this->subject->fillEventsByMatchId($match['id'], $eventsRTM, $eventsGC);
 
         $this->assertEquals('210833888', $eventsRTM['210833888']['id']);
         $this->assertEquals('c1tv9h466dm3ifd3olott04200', $eventsGC['c1tv9h466dm3ifd3olott04200']['id']);
     }
+
+    /**
+     * [testSyncMatch description]
+     *
+     * @return none
+     */
+    public function testSyncMatch()
+    {
+    }
+
+    /**
+     * [testSyncMatchRTM2GC description]
+     *
+     * @return none
+     */
+    public function testSyncMatchRTM2GC()
+    {
+
+        $match = $this->subject->data['configuration']['Match'][0];
+
+        $eventsRTM  = array();
+        $eventsGC   = array();
+        $this->subject->fillEventsByMatchId($match['id'], $eventsRTM, $eventsGC);
+
+        $eventsNew  = array();
+        $tasks      = $this->subject->rtm->getTasks($match['rtm']['id']);
+        $this->subject->syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
+
+print_r($eventsNew);
+//print_r($eventsRTM);
+print_r($this->subject->results['log']);
+    }
+
 
 }
