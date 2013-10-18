@@ -283,9 +283,29 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $tasks      = $this->subject->rtm->getTasks($match['rtm']['id']);
         $this->subject->syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
 
-//print_r($eventsNew);
+
+        // Skip RTM task 210835293. Not due date ne1 event completed'
+        foreach ($eventsNew as $eventCouple) {
+            $this->assertNotEquals('210835293', $eventCouple['rtm']['id'], 'Must be ignored RTM 210835293 event');
+        }
+        // Skip RTM task 210835257. Not due date ne0 event without date'
+        foreach ($eventsNew as $eventCouple) {
+            $this->assertNotEquals('210835257', $eventCouple['rtm']['id'], 'Must be ignored RTM 210835257 event');
+        }
+
+        // Add RTM task 110834062A to GC: 2013-09-01T22:00:00Z 'e01 event created rtm all day'
+        // Add RTM task 110834264B to GC: 2013-09-02T08:00:00Z 'e02 event created rtm appointment'
+        // Preserve RTM task 210834211 in GC (halftrue) 2013-09-01T08:00:00Z 'e4 event changed google appointment'
+        // Update RTM task 210834264 in GC: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed rtm appointment'
+        // Preserve RTM task 210833961 in GC (halftrue) 2013-09-02T22:00:00Z 'e1 event changed google all day'
+        // Preserve RTM task 210833888 in GC (halftrue) 2013-08-31T22:00:00Z 'e0 event unchanged all day'
+        // Update RTM task 210834062 in GC: (2013-09-03T20:20:30Z != 2013-09-03T10:20:30Z) 2013-09-01T22:00:00Z 'e2 event changed rtm all day'
+        // Preserve RTM task 210834146 in GC (halftrue) 2013-09-03T08:00:00Z 'e3 event unchanged appointment'
+
+
+print_r($eventsNew);
 //print_r($eventsRTM);
-//print_r($this->subject->results['log']);
+print_r($this->subject->results['log']);
     }
 
 
