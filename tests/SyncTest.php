@@ -283,9 +283,9 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $tasks      = $this->subject->rtm->getTasks($match['rtm']['id']);
         $this->subject->syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
 
-print_r($eventsNew);
+//print_r($eventsNew);
 //print_r($eventsRTM);
-print_r($this->subject->results['log']);
+//print_r($this->subject->results['log']);
     }
 
 

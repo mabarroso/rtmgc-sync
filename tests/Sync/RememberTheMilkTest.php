@@ -105,8 +105,8 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('210835293', $tasksIds[0]);
         $this->assertEquals('ne1 event completed', $tasks[$tasksIds[0]]->getName());
 
-        $this->assertEquals('210834146', $tasksIds[7]);
-        $this->assertEquals('e3 event unchanged appointment', $tasks[$tasksIds[7]]->getName());
+        $this->assertEquals('210834146', $tasksIds[9]);
+        $this->assertEquals('e3 event unchanged appointment', $tasks[$tasksIds[9]]->getName());
     }
 
     /**

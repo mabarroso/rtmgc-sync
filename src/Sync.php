@@ -16,8 +16,8 @@
  */
 
 require_once 'bootstrap.php';
-require 'Sync/RememberTheMilk.php';
-require 'Sync/GoogleCalendar.php';
+//require 'Sync/RememberTheMilk.php';
+//require 'Sync/GoogleCalendar.php';
 
 /**
  * Sync
