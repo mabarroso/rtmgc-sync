@@ -286,14 +286,18 @@ class SyncTest extends PHPUnit_Framework_TestCase
 
         // Skip RTM task 210835293. Not due date ne1 event completed'
         foreach ($eventsNew as $eventCouple) {
-            $this->assertNotEquals('210835293', $eventCouple['rtm']['id'], 'Must be ignored RTM 210835293 event');
+            $this->assertNotEquals('210835293', $eventCouple['rtm']['id'], 'RTM 210835293 event must be ignored');
         }
         // Skip RTM task 210835257. Not due date ne0 event without date'
         foreach ($eventsNew as $eventCouple) {
-            $this->assertNotEquals('210835257', $eventCouple['rtm']['id'], 'Must be ignored RTM 210835257 event');
+            $this->assertNotEquals('210835257', $eventCouple['rtm']['id'], 'RTM 210835257 event must be ignored');
         }
 
         // Add RTM task 110834062A to GC: 2013-09-01T22:00:00Z 'e01 event created rtm all day'
+        $this->assertEquals('110834062A', $eventsNew[0]['rtm']['id'], 'RTM 110834062A event must be sync');
+        $this->assertEquals('event_id', $eventsNew[0]['google']['id'], 'RTM 110834062A event must be added to GC');
+        $this->assertEquals('updated_date', $eventsNew[0]['google']['last'], 'RTM 110834062A event must be added to GC');
+
         // Add RTM task 110834264B to GC: 2013-09-02T08:00:00Z 'e02 event created rtm appointment'
         // Preserve RTM task 210834211 in GC (halftrue) 2013-09-01T08:00:00Z 'e4 event changed google appointment'
         // Update RTM task 210834264 in GC: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed rtm appointment'
