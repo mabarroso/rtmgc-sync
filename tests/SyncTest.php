@@ -297,13 +297,22 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('110834062A', $eventsNew[0]['rtm']['id'], 'RTM 110834062A event must be sync');
         $this->assertEquals('event_id', $eventsNew[0]['google']['id'], 'RTM 110834062A event must be added to GC');
         $this->assertEquals('updated_date', $eventsNew[0]['google']['last'], 'RTM 110834062A event must be added to GC');
+        $this->assertFalse($eventsNew[0]['conflict'], 'RTM 110834062A event must not be conflicted');
 
         // Add RTM task 110834264B to GC: 2013-09-02T08:00:00Z 'e02 event created rtm appointment'
         $this->assertEquals('110834264B', $eventsNew[1]['rtm']['id'], 'RTM 110834264B event must be sync');
         $this->assertEquals('event_id', $eventsNew[1]['google']['id'], 'RTM 110834264B event must be added to GC');
         $this->assertEquals('updated_date', $eventsNew[1]['google']['last'], 'RTM 110834264B event must be added to GC');
+        $this->assertFalse($eventsNew[1]['conflict'], 'RTM 110834264B event must not be conflicted');
 
         // Preserve RTM task 210834211 in GC (halftrue) 2013-09-01T08:00:00Z 'e4 event changed google appointment'
+        $this->assertEquals('210834211', $eventsNew[2]['rtm']['id'], 'RTM 210834211 event must be sync');
+        $this->assertEquals('c1tv9h466dm3ifd3olott04204', $eventsNew[2]['google']['id'], 'RTM 210834211 event must be preserved to next check');
+        $this->assertEquals('2013-09-02T20:20:30.000Z', $eventsNew[2]['google']['last'], 'RTM 210834211 event must be preserved to next check');
+        $this->assertEquals(1, $eventsNew[2]['halftrue'], 'RTM 210834211 event must be marked as half check');
+        $this->assertFalse($eventsNew[2]['conflict'], 'RTM 210834211 event must not be conflicted');
+
+
         // Update RTM task 210834264 in GC: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed rtm appointment'
         // Preserve RTM task 210833961 in GC (halftrue) 2013-09-02T22:00:00Z 'e1 event changed google all day'
         // Preserve RTM task 210833888 in GC (halftrue) 2013-08-31T22:00:00Z 'e0 event unchanged all day'
