@@ -207,9 +207,9 @@ class GoogleCalendar
     }
 
     /**
-     * [insertEvent description]
+     * [event description]
      *
-     * @param [type]  $calendarId [description]*
+     * @param [type]  $calendarId [description]
      * @param [type]  $summary    [description]
      * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
      * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
@@ -217,9 +217,9 @@ class GoogleCalendar
      * @param boolean $bgColor    [description]
      * @param boolean $fgColor    [description]
      *
-     * @return [type]             [description]
+     * @return Google_Event       [description]
      */
-    public function insertEvent($calendarId, $summary, $startDate, $endDate, $location = false, $bgColor = false, $fgColor = false)
+    public function event($summary, $startDate, $endDate, $location = false, $bgColor = false, $fgColor = false)
     {
         $event = new Google_Event();
         $event->setSummary($summary);
@@ -236,7 +236,36 @@ class GoogleCalendar
         // TODO: fgColor
         // TODO: bgColor
 
+        return $event;
+    }
+
+    /**
+     * [insertEvent description]
+     *
+     * @param [type]        $calendarId [description]
+     * @param Google_Event] $event      [description]
+     *
+     * @return [type]                   [description]
+     */
+    public function insertEvent($calendarId, $event)
+    {
         $createdEvent = $this->_calendar->events->insert($calendarId, $event); //Returns array not an object
+
+        return $createdEvent;
+    }
+
+    /**
+     * [updateEvent description]
+     *
+     * @param [type]        $calendarId [description]
+     * @param [type]        $eventId    [description]
+     * @param Google_Event] $event      [description]
+     *
+     * @return [type]                   [description]
+     */
+    public function updateEvent($calendarId, $eventId, $event)
+    {
+        $createdEvent = $this->_calendar->events->update($calendarId, $eventId, $event); //Returns array not an object
 
         return $createdEvent;
     }

@@ -319,10 +319,11 @@ class Sync
                 if (!isset($eventsRTM[$taskId])) {
                     // New: Not in RTM and GC
                     // TODO: Location
-                    $createdEvent = $this->gc->insertEvent(
-                        $calendarId, $task->getName(), $date, $date,
+                    $event = $this->gc->event(
+                        $task->getName(), $date, $date,
                         false, $match['google']['backgroundColor'], $match['google']['foregroundColor']
                     );
+                    $createdEvent = $this->gc->insertEvent($calendarId, $event);
                     $eventsNew[] = array(
                         'rtm' => array(
                             'list_id' => $listId,
@@ -338,6 +339,25 @@ class Sync
                     $this->ok("Add RTM task $taskId to GC: $date '{$task->getName()}'");
                 } else if ($task->getModified() != $eventsRTM[$taskId]['last']) {
                     // updated in RTM
+                    $calendarEventId =  $this->data['sync'][$match['id']][$eventsRTM[$taskId]['index']]['google']['id'];
+                    $event = $this->gc->event(
+                        $task->getName(), $date, $date,
+                        false, $match['google']['backgroundColor'], $match['google']['foregroundColor']
+                    );
+                    $updatedEvent = $this->gc->updateEvent($calendarId, $calendarEventId, $event);
+                    $eventsNew[] = array(
+                        'rtm' => array(
+                            'list_id' => $listId,
+                            'id' => $taskId,
+                            'last' => $task->getModified()
+                        ),
+                        'google' => array(
+                            'id' => $calendarEventId, //$updatedEvent['id'],
+                            'last' => $updatedEvent['updated']
+                        ),
+                        'conflict' => false,
+                    );
+
                     $this->ok("Update RTM task $taskId in GC: ({$task->getModified()} != {$eventsRTM[$taskId]['last']}) $date '{$task->getName()}'");
                 } else {
                     // no changes
