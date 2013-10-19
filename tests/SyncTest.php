@@ -299,6 +299,10 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('updated_date', $eventsNew[0]['google']['last'], 'RTM 110834062A event must be added to GC');
 
         // Add RTM task 110834264B to GC: 2013-09-02T08:00:00Z 'e02 event created rtm appointment'
+        $this->assertEquals('110834264B', $eventsNew[1]['rtm']['id'], 'RTM 110834264B event must be sync');
+        $this->assertEquals('event_id', $eventsNew[1]['google']['id'], 'RTM 110834264B event must be added to GC');
+        $this->assertEquals('updated_date', $eventsNew[1]['google']['last'], 'RTM 110834264B event must be added to GC');
+
         // Preserve RTM task 210834211 in GC (halftrue) 2013-09-01T08:00:00Z 'e4 event changed google appointment'
         // Update RTM task 210834264 in GC: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed rtm appointment'
         // Preserve RTM task 210833961 in GC (halftrue) 2013-09-02T22:00:00Z 'e1 event changed google all day'
