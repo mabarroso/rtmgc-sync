@@ -62,7 +62,7 @@ class SyncTest extends PHPUnit_Framework_TestCase
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
 
-        $googleCalendar = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI', 'insertEvent'));
+        $googleCalendar = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI', 'event', 'insertEvent', 'updateEvent'));
         $googleCalendar->expects($this->any())
             ->method('getCalendarsFromAPI')
             ->will($this->returnValue($listCalendarList));
@@ -70,7 +70,20 @@ class SyncTest extends PHPUnit_Framework_TestCase
             ->method('getEventsFromAPI')
             ->will($this->returnValue($listEvents));
         $googleCalendar->expects($this->any())
+            ->method('event')
+            ->will($this->returnValue(""));
+        $googleCalendar->expects($this->any())
             ->method('insertEvent')
+            ->will(
+                $this->returnValue(
+                    array(
+                        'id' => 'event_id',
+                        'updated' => 'updated_date',
+                    )
+                )
+            );
+        $googleCalendar->expects($this->any())
+            ->method('updateEvent')
             ->will(
                 $this->returnValue(
                     array(
@@ -312,9 +325,19 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $eventsNew[2]['halftrue'], 'RTM 210834211 event must be marked as half check');
         $this->assertFalse($eventsNew[2]['conflict'], 'RTM 210834211 event must not be conflicted');
 
-
         // Update RTM task 210834264 in GC: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed rtm appointment'
+        $this->assertEquals('210834264', $eventsNew[3]['rtm']['id'], 'RTM 210834264 event must be sync');
+        $this->assertEquals('c1tv9h466dm3ifd3olott04205', $eventsNew[3]['google']['id'], 'RTM 210834264 event must be the correct id in GC');
+        $this->assertEquals('updated_date', $eventsNew[3]['google']['last'], 'RTM 210834264 event must be updated in GC');
+        $this->assertFalse($eventsNew[3]['conflict'], 'RTM 210834264 event must not be conflicted');
+
         // Preserve RTM task 210833961 in GC (halftrue) 2013-09-02T22:00:00Z 'e1 event changed google all day'
+        $this->assertEquals('210833961', $eventsNew[4]['rtm']['id'], 'RTM 210833961 event must be sync');
+        $this->assertEquals('c1tv9h466dm3ifd3olott04201', $eventsNew[4]['google']['id'], 'RTM 210833961 event must be preserved to next check');
+        $this->assertEquals('2013-09-02T20:20:30.000Z', $eventsNew[4]['google']['last'], 'RTM 210833961 event must be preserved to next check');
+        $this->assertEquals(1, $eventsNew[4]['halftrue'], 'RTM 210833961 event must be marked as half check');
+        $this->assertFalse($eventsNew[4]['conflict'], 'RTM 210833961 event must not be conflicted');
+
         // Preserve RTM task 210833888 in GC (halftrue) 2013-08-31T22:00:00Z 'e0 event unchanged all day'
         // Update RTM task 210834062 in GC: (2013-09-03T20:20:30Z != 2013-09-03T10:20:30Z) 2013-09-01T22:00:00Z 'e2 event changed rtm all day'
         // Preserve RTM task 210834146 in GC (halftrue) 2013-09-03T08:00:00Z 'e3 event unchanged appointment'
