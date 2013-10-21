@@ -346,6 +346,11 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($eventsNew[5]['conflict'], 'RTM 210833888 event must not be conflicted');
 
         // Update RTM task 210834062 in GC: (2013-09-03T20:20:30Z != 2013-09-03T10:20:30Z) 2013-09-01T22:00:00Z 'e2 event changed rtm all day'
+        $this->assertEquals('210834062', $eventsNew[6]['rtm']['id'], 'RTM 210834062 event must be sync');
+        $this->assertEquals('c1tv9h466dm3ifd3olott04202', $eventsNew[6]['google']['id'], 'RTM 210834062 event must be the correct id in GC');
+        $this->assertEquals('updated_date', $eventsNew[6]['google']['last'], 'RTM 210834062 event must be updated in GC');
+        $this->assertFalse($eventsNew[6]['conflict'], 'RTM 210834062 event must not be conflicted');
+
         // Preserve RTM task 210834146 in GC (halftrue) 2013-09-03T08:00:00Z 'e3 event unchanged appointment'
 
 
