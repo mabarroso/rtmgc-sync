@@ -152,4 +152,13 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     {
     }
 
+    /**
+     * [testDeleteTask description]
+     *
+     * @return none
+     */
+    public function testDeleteTask()
+    {
+    }
+
 }

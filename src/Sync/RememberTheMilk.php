@@ -243,6 +243,7 @@ class RememberTheMilk
     /**
      * [updateTask description]
      *
+     * @param [type]  $taskId     [description]
      * @param String  $listId     [description]
      * @param [type]  $name       [description]
      * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
@@ -251,18 +252,17 @@ class RememberTheMilk
      *
      * @return DataContainer      [description]
      */
-    public function updateTask($listId, $taskId, $name = false, $startDate = false, $endDate = false, $location = false)
+    public function updateTask($taskId, $listId, $name = false, $startDate = false, $endDate = false, $location = false)
     {
         $taskSeriesId = $taskId;
-        $realTaskId = echo $this->getTaskById($listId, $taskId)->get('task')->get('id');
-
+        $realTaskId = $this->getTaskById($listId, $taskId)->get('task')->get('id');
 
         if ($name) {
-            $updatedEvent = $this->_calendar->events->setName($realTaskId, $listId, $taskSeriesId, $name);
+            $updatedTask = $this->_calendar->events->setName($realTaskId, $listId, $taskSeriesId, $name);
         }
 
         if ($startDate) {
-            $updatedEvent = $this->_calendar->events->setDueDate($realTaskId, $listId, $taskSeriesId, $startDate, true, true);
+            $updatedTask = $this->_calendar->events->setDueDate($realTaskId, $listId, $taskSeriesId, $startDate, true, true);
         }
 
         if ($endDate) {
@@ -274,7 +274,25 @@ class RememberTheMilk
         }
 
 
-        return $updatedEvent;
+        return $updatedTask;
+    }
+
+    /**
+     * [deleteEvent description]
+     *
+     * @param [type]  $taskId     [description]
+     * @param String  $listId     [description]
+     *
+     * @return DataContainer      [description]
+     */
+    public function deleteTask($taskId, $listId)
+    {
+        $taskSeriesId = $taskId;
+        $realTaskId = $this->getTaskById($listId, $taskId)->get('task')->get('id');
+
+        $deletedTask = $this->_calendar->events->delete($realTaskId, $listId, $taskSeriesId);
+
+        return $deletedTask;
     }
 
 }
