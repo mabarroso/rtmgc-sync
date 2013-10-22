@@ -201,4 +201,29 @@ class RememberTheMilk
         }
         return false;
     }
+
+   /**
+     * [task description]
+     *
+     * @param [type]  $summary    [description]
+     * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
+     * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
+     * @param boolean $location   [description]
+     *
+     * @return String             RTM task string to parse
+     */
+    public function task($summary, $startDate, $endDate = false, $location = false)
+    {
+        $task = "$summary ^$startDate";
+
+        if ($endDate) {
+            //TODO: Duration
+        }
+
+        if ($location) {
+            //TODO: Location
+        }
+
+        return $task;
+    }
 }

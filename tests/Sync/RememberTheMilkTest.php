@@ -123,4 +123,14 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('e3 event unchanged appointment', $task->getName());
     }
 
+    /**
+     * [testGetListById description]
+     *
+     * @return none
+     */
+    public function testTask()
+    {
+        $task = $this->subject->task('dummy', '2012-10-31T10:25:00.000-05:00');
+        $this->assertEquals('dummy ^2012-10-31T10:25:00.000-05:00', $task);
+    }
 }
