@@ -142,4 +142,14 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     public function testAddTask()
     {
     }
+
+    /**
+     * [testUpdateTask description]
+     *
+     * @return none
+     */
+    public function testUpdateTask()
+    {
+    }
+
 }

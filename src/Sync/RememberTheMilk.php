@@ -205,16 +205,16 @@ class RememberTheMilk
    /**
      * [task description]
      *
-     * @param [type]  $summary    [description]
+     * @param [type]  $name       [description]
      * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
      * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
      * @param boolean $location   [description]
      *
      * @return String             RTM task string to parse
      */
-    public function task($summary, $startDate, $endDate = false, $location = false)
+    public function task($name, $startDate, $endDate = false, $location = false)
     {
-        $task = "$summary ^$startDate";
+        $task = "$name ^$startDate";
 
         if ($endDate) {
             //TODO: Duration
@@ -238,6 +238,43 @@ class RememberTheMilk
     public function addTask($listId, $taskString)
     {
         return $this->_rtm->getService(Rtm::SERVICE_TASKS)->add($taskString, $listId);
+    }
+
+    /**
+     * [updateTask description]
+     *
+     * @param String  $listId     [description]
+     * @param [type]  $name       [description]
+     * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
+     * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
+     * @param boolean $location   [description]
+     *
+     * @return DataContainer      [description]
+     */
+    public function updateTask($listId, $taskId, $name = false, $startDate = false, $endDate = false, $location = false)
+    {
+        $taskSeriesId = $taskId;
+        $realTaskId = echo $this->getTaskById($listId, $taskId)->get('task')->get('id');
+
+
+        if ($name) {
+            $updatedEvent = $this->_calendar->events->setName($realTaskId, $listId, $taskSeriesId, $name);
+        }
+
+        if ($startDate) {
+            $updatedEvent = $this->_calendar->events->setDueDate($realTaskId, $listId, $taskSeriesId, $startDate, true, true);
+        }
+
+        if ($endDate) {
+            //TODO: Duration
+        }
+
+        if ($location) {
+            //TODO: Location
+        }
+
+
+        return $updatedEvent;
     }
 
 }
