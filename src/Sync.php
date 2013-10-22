@@ -366,11 +366,9 @@ class Sync
                     $this->ok("Preserve RTM task $taskId in GC (halftrue) $date '{$task->getName()}'");
                 }
             }
-
         }
-
         // check deleted
-        echo "  _syncMatchRTM2GC\n";
+        // TODO: check deleted
     }
 
     /**
@@ -385,7 +383,12 @@ class Sync
     public function syncMatchGC2RTM(&$events, &$eventsGC, &$eventsRTM)
     {
         // check new or modified
+        // TODO: syncMatchGC2RTM new
+        // TODO: syncMatchGC2RTM updated
+
         // check deleted
+        // TODO: syncMatchGC2RTM deleted
+
         echo "  syncMatchGC2RTM\n";
     }
 }
