@@ -417,10 +417,38 @@ class Sync
 
         // check new or modified
         $synced = array();
-        foreach ($tasks as $taskId => $task) {
-
-            // TODO: syncMatchGC2RTM new
-            // TODO: syncMatchGC2RTM updated
+        foreach ($events as $index => $event) {
+            $eventId = $event['id'];
+            if (!isset($eventsGC[$eventId])) {
+                // New: Not in GC and RTM
+                // TODO: Location
+                $date = isset($event['start']['dateTime']) ? $event['start']['dateTime']:$event['start']['date'];
+                $taskString = $this->rtm->task($event['summary'], $date);
+                $createdTask = $this->rtm->addTask($listId, $taskString);
+                    $eventsNew[] = array(
+                        'rtm' => array(
+                            'list_id' => $listId,
+                            'id' => $createdTask->getId(),
+                            'last' => $createdTask->getModified()
+                        ),
+                        'google' => array(
+                            'id' => $eventId,
+                            'last' => $event['updated']
+                        ),
+                        'conflict' => false,
+                    );
+                    $synced[$eventId] = true;
+                    $this->ok("Add GC event $eventId to RTM: $date '{$event['summary']}' '{$event['description']}'");
+            } else if ($event['updated'] != $eventsGC[$eventId]['last']) {
+                // TODO: syncMatchGC2RTM updated
+                $this->ok("-->UPDATED GC event $eventId in RTM (halftrue) {$event['updated']} '{$event['summary']}' '{$event['description']}'");
+            } else {
+                // no changes
+                $eventsNew[] = $this->data['sync'][$match['id']][$eventsGC[$eventId]['index']];
+                $eventsNew[count($eventsNew)-1]['halftrue'] = true;
+                $synced[$eventId] = true;
+                $this->ok("Preserve GC event $eventId in RTM (halftrue) {$event['updated']} '{$event['summary']}' '{$event['description']}'");
+            }
         }
 
         // check deleted

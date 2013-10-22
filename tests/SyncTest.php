@@ -52,8 +52,12 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $rtmClient = $rtm->getClient();
 
         $rememberTheMilk = $this->getMock('RememberTheMilk', array('getListsFromAPI', 'getTasksFromAPI', 'addTask', 'updateTask', 'deleteTask'));
-        $rtmLists = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList();
-        $rtmTasks = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks.json'))->getResponse()->getTasks()->getList()->getTaskseries();
+        $rtmLists        = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList();
+        $rtmTasks        = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks.json'))->getResponse()->getTasks()->getList()->getTaskseries();
+        $rtmTasksNew     = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks_new.json'))->getResponse()->getTasks()->getList()->getTaskseries();
+        $rtmTaskIterator = $rtmTasksNew->getIterator();
+        $rtmTaskIterator->valid();
+        $rtmTask = $rtmTaskIterator->current();
         $rememberTheMilk->expects($this->any())
             ->method('getListsFromAPI')
             ->will($this->returnValue($rtmLists));
@@ -62,13 +66,13 @@ class SyncTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($rtmTasks));
         $rememberTheMilk->expects($this->any())
             ->method('addTask')
-            ->will($this->returnValue($rtmTasks->getIterator()->valid()));
+            ->will($this->returnValue($rtmTask));
         $rememberTheMilk->expects($this->any())
             ->method('updateTask')
-            ->will($this->returnValue($rtmTasks->getIterator()->valid()));
+            ->will($this->returnValue($rtmTask));
         $rememberTheMilk->expects($this->any())
             ->method('deleteTask')
-            ->will($this->returnValue($rtmTasks->getIterator()->valid()));
+            ->will($this->returnValue($rtmTask));
 
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
@@ -389,15 +393,21 @@ class SyncTest extends PHPUnit_Framework_TestCase
     public function testSyncMatchGC2RTM()
     {
 
-        $match = $this->subject->data['configuration']['Match'][0];
+        $match = $this->subject->data['configuration']['Match'][1];
 
         $eventsRTM  = array();
         $eventsGC   = array();
         $this->subject->fillEventsByMatchId($match['id'], $eventsRTM, $eventsGC);
 
         $eventsNew  = array();
-        $tasks      = $this->subject->gc->getEvents($match['google']['id']);
+        $events     = $this->subject->gc->getEvents($match['google']['id']);
         $this->subject->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
+
+        // Add GC task id_e01 to GC: 2013-09-01T10:20:30.000Z 'e0 event unchanged all day'
+        $this->assertEquals('id_e01', $eventsNew[0]['google']['id'], 'GC id_e01 event must be sync');
+        $this->assertEquals('taskseries_id', $eventsNew[0]['rtm']['id'], 'GC id_e01 event must be added to RTM');
+        $this->assertEquals('taskserie_modified_date', $eventsNew[0]['rtm']['last'], 'GC id_e01 event must be added to RTM');
+        $this->assertFalse($eventsNew[0]['conflict'], 'GC id_e01 event must not be conflicted');
 
 
 print_r($eventsNew);

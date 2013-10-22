@@ -1,0 +1,42 @@
+{
+   "rsp":{
+      "stat":"ok",
+      "tasks":{
+         "rev":"jcnereposeg48kgscwwo4gowo4kwoow",
+         "list":{
+            "id":"25512901",
+            "taskseries":[
+               {
+                  "id":"taskseries_id",
+                  "created":"taskseries_created_Date",
+                  "modified":"taskserie_modified_date",
+                  "name":"taskserie_name",
+                  "source":"js",
+                  "url":"",
+                  "location_id":"",
+                  "tags":[
+
+                  ],
+                  "participants":[
+
+                  ],
+                  "notes":[
+
+                  ],
+                  "task":{
+                     "id":"task_id",
+                     "due":"task_due_date",
+                     "has_due_time":"1",
+                     "added":"task_edded_date",
+                     "completed":"",
+                     "deleted":"",
+                     "priority":"N",
+                     "postponed":"0",
+                     "estimate":""
+                  }
+               }
+            ]
+         }
+      }
+   }
+}
