@@ -209,15 +209,14 @@ class GoogleCalendar
     /**
      * [event description]
      *
-     * @param [type]  $calendarId [description]
-     * @param [type]  $summary    [description]
-     * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
-     * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
-     * @param boolean $location   [description]
-     * @param boolean $bgColor    [description]
-     * @param boolean $fgColor    [description]
+     * @param [type]  $summary   [description]
+     * @param [type]  $startDate Format '2012-10-31T10:25:00.000-05:00'
+     * @param [type]  $endDate   Format '2012-10-31T10:25:00.000-05:00'
+     * @param boolean $location  [description]
+     * @param boolean $bgColor   [description]
+     * @param boolean $fgColor   [description]
      *
-     * @return Google_Event       [description]
+     * @return Google_Event [description]
      */
     public function event($summary, $startDate, $endDate, $location = false, $bgColor = false, $fgColor = false)
     {
@@ -273,10 +272,10 @@ class GoogleCalendar
     /**
      * [deleteEvent description]
      *
-     * @param [type]        $calendarId [description]
-     * @param [type]        $eventId    [description]
+     * @param [type] $calendarId [description]
+     * @param [type] $eventId    [description]
      *
-     * @return [type]                   [description]
+     * @return [type] [description]
      */
     public function deleteEvent($calendarId, $eventId)
     {

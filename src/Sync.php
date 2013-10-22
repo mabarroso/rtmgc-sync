@@ -16,8 +16,6 @@
  */
 
 require_once 'bootstrap.php';
-//require 'Sync/RememberTheMilk.php';
-//require 'Sync/GoogleCalendar.php';
 
 /**
  * Sync
@@ -242,11 +240,10 @@ class Sync
         $this->save();
     }
 
-
     /**
      * [fillEventsByMatchId description]
      *
-     * @param [type] $matchId     [description]
+     * @param [type] $matchId    [description]
      * @param [type] &$eventsRTM [description]
      * @param [type] &$eventsGC  [description]
      *
@@ -401,17 +398,30 @@ class Sync
     /**
      * [_syncMatchGC2RTM description]
      *
+     * @param [type] &$match     [description]
+     * @param [type] &$tasks     [description]
      * @param [type] &$events    [description]
+     * @param [type] &$eventsNew [description]
      * @param [type] &$eventsGC  [description]
      * @param [type] &$eventsRTM [description]
      *
      * @return [type]            [description]
      */
-    public function syncMatchGC2RTM(&$events, &$eventsGC, &$eventsRTM)
+    public function syncMatchGC2RTM(&$match, &$tasks, &$events, &$eventsNew, &$eventsGC, &$eventsRTM)
     {
+        $listId     = $match['rtm']['id'];
+        $calendarId = $match['google']['id'];
+
+        // TODO: check for list name
+        // TODO: check for calendar name
+
         // check new or modified
-        // TODO: syncMatchGC2RTM new
-        // TODO: syncMatchGC2RTM updated
+        $synced = array();
+        foreach ($tasks as $taskId => $task) {
+
+            // TODO: syncMatchGC2RTM new
+            // TODO: syncMatchGC2RTM updated
+        }
 
         // check deleted
         // TODO: syncMatchGC2RTM deleted

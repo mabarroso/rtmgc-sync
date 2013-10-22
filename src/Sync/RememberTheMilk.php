@@ -202,15 +202,15 @@ class RememberTheMilk
         return false;
     }
 
-   /**
+    /**
      * [task description]
      *
-     * @param [type]  $name       [description]
-     * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
-     * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
-     * @param boolean $location   [description]
+     * @param [type]  $name      [description]
+     * @param [type]  $startDate Format '2012-10-31T10:25:00.000-05:00'
+     * @param [type]  $endDate   Format '2012-10-31T10:25:00.000-05:00'
+     * @param boolean $location  [description]
      *
-     * @return String             RTM task string to parse
+     * @return String            RTM task string to parse
      */
     public function task($name, $startDate, $endDate = false, $location = false)
     {
@@ -230,10 +230,10 @@ class RememberTheMilk
     /**
      * [addTask description]
      *
-     * @param String        $listId     [description]
-     * @param String        $taskString [description]
+     * @param String $listId     [description]
+     * @param String $taskString [description]
      *
-     * @return DataContainer            [description]
+     * @return DataContainer [description]
      */
     public function addTask($listId, $taskString)
     {
@@ -243,12 +243,12 @@ class RememberTheMilk
     /**
      * [updateTask description]
      *
-     * @param [type]  $taskId     [description]
-     * @param String  $listId     [description]
-     * @param [type]  $name       [description]
-     * @param [type]  $startDate  Format '2012-10-31T10:25:00.000-05:00'
-     * @param [type]  $endDate    Format '2012-10-31T10:25:00.000-05:00'
-     * @param boolean $location   [description]
+     * @param [type]  $taskId    [description]
+     * @param String  $listId    [description]
+     * @param [type]  $name      [description]
+     * @param [type]  $startDate Format '2012-10-31T10:25:00.000-05:00'
+     * @param [type]  $endDate   Format '2012-10-31T10:25:00.000-05:00'
+     * @param boolean $location  [description]
      *
      * @return DataContainer      [description]
      */
@@ -280,10 +280,10 @@ class RememberTheMilk
     /**
      * [deleteEvent description]
      *
-     * @param [type]  $taskId     [description]
-     * @param String  $listId     [description]
+     * @param [type] $taskId [description]
+     * @param String $listId [description]
      *
-     * @return DataContainer      [description]
+     * @return DataContainer [description]
      */
     public function deleteTask($taskId, $listId)
     {

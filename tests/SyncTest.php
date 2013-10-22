@@ -380,4 +380,31 @@ class SyncTest extends PHPUnit_Framework_TestCase
         // Remove deleted RTM task id_deleted
         $this->assertEquals(9, count($eventsNew), 'RTM id_deleted2 event must be removed');
     }
+
+    /**
+     * [testSyncMatchGC2RTM description]
+     *
+     * @return none
+     */
+    public function testSyncMatchGC2RTM()
+    {
+
+        $match = $this->subject->data['configuration']['Match'][0];
+
+        $eventsRTM  = array();
+        $eventsGC   = array();
+        $this->subject->fillEventsByMatchId($match['id'], $eventsRTM, $eventsGC);
+
+        $eventsNew  = array();
+        $tasks      = $this->subject->gc->getEvents($match['google']['id']);
+        $this->subject->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
+
+
+print_r($eventsNew);
+//print_r($eventsRTM);
+//print_r($eventsGC);
+print_r($this->subject->results['log']);
+
+        //TODO: halftrue
+    }
 }
