@@ -269,4 +269,19 @@ class GoogleCalendar
 
         return $createdEvent;
     }
+
+    /**
+     * [deleteEvent description]
+     *
+     * @param [type]        $calendarId [description]
+     * @param [type]        $eventId    [description]
+     *
+     * @return [type]                   [description]
+     */
+    public function deleteEvent($calendarId, $eventId)
+    {
+        $deletedEvent = $this->_calendar->events->delete($calendarId, $eventId);
+
+        return $deletedEvent;
+    }
 }

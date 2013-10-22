@@ -310,11 +310,12 @@ class Sync
         // TODO: check for calendar name
 
         // check new or modified
+        $synced = array();
         foreach ($tasks as $taskId => $task) {
             $date = $task->getTask()->get('due');
             if (strlen($date) < 2) {
                 // skip, no due date
-                $this->ok("Skip RTM task $taskId. Not due date {$task->getName()}'");
+                $this->ok("Skip RTM task $taskId. Not due date '{$task->getName()}'");
             } else {
                 if (!isset($eventsRTM[$taskId])) {
                     // New: Not in RTM and GC
@@ -336,6 +337,7 @@ class Sync
                         ),
                         'conflict' => false,
                     );
+                    $synced[$taskId] = true;
                     $this->ok("Add RTM task $taskId to GC: $date '{$task->getName()}'");
                 } else if ($task->getModified() != $eventsRTM[$taskId]['last']) {
                     // updated in RTM
@@ -355,20 +357,45 @@ class Sync
                             'id' => $calendarEventId, //$updatedEvent['id'],
                             'last' => $updatedEvent['updated']
                         ),
-                        'conflict' => false,
+                        'conflict' => false
                     );
-
+                    $synced[$taskId] = true;
                     $this->ok("Update RTM task $taskId in GC: ({$task->getModified()} != {$eventsRTM[$taskId]['last']}) $date '{$task->getName()}'");
                 } else {
                     // no changes
                     $eventsNew[] = $this->data['sync'][$match['id']][$eventsRTM[$taskId]['index']];
                     $eventsNew[count($eventsNew)-1]['halftrue'] = true;
+                    $synced[$taskId] = true;
                     $this->ok("Preserve RTM task $taskId in GC (halftrue) $date '{$task->getName()}'");
                 }
             }
         }
         // check deleted
-        // TODO: check deleted
+        //   Event was deleted when exists in previous sync but not in current RTM tasks list
+        foreach ($this->data['sync'][$match['id']] as $eventCouple) {
+            $taskId = $eventCouple['rtm']['id'];
+            $eventId = $eventCouple['google']['id'];
+            if (!isset($synced[$taskId])) {
+                if (isset($eventCouple['deleted'])) {
+                    // skip, deleted in previous sync
+                    $this->ok("Skip RTM task $taskId already deleted'");
+                } else {
+                    $this->gc->deleteEvent($calendarId, $eventId);
+                    $eventsNew[] = array(
+                        'rtm' => array(
+                            'list_id' => $listId,
+                            'id' => $taskId,
+                        ),
+                        'google' => array(
+                            'id' => $eventId
+                        ),
+                        'conflict' => false,
+                        'deleted' => true
+                    );
+                    $this->ok("Delete RTM task $taskId in GC ($eventId)");
+                }
+            }
+        }
     }
 
     /**

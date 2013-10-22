@@ -62,7 +62,7 @@ class SyncTest extends PHPUnit_Framework_TestCase
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
 
-        $googleCalendar = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI', 'event', 'insertEvent', 'updateEvent'));
+        $googleCalendar = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI', 'event', 'insertEvent', 'updateEvent', 'deleteEvent'));
         $googleCalendar->expects($this->any())
             ->method('getCalendarsFromAPI')
             ->will($this->returnValue($listCalendarList));
@@ -92,6 +92,9 @@ class SyncTest extends PHPUnit_Framework_TestCase
                     )
                 )
             );
+        $googleCalendar->expects($this->any())
+            ->method('deleteEvent')
+            ->will($this->returnValue(""));
 
         $this->subject->setMocks($rememberTheMilk, $googleCalendar);
 
@@ -357,5 +360,13 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('2013-09-03T10:20:30.000Z', $eventsNew[7]['google']['last'], 'RTM 210834146 event must be preserved to next check');
         $this->assertEquals(1, $eventsNew[7]['halftrue'], 'RTM 210834146 event must be marked as half check');
         $this->assertFalse($eventsNew[7]['conflict'], 'RTM 210834146 event must not be conflicted');
+
+        // Delete RTM task id_deleted in GC
+        $this->assertEquals('id_deleted', $eventsNew[8]['rtm']['id'], 'RTM id_deleted event must be sync');
+        $this->assertEquals('id_to_delete', $eventsNew[8]['google']['id'], 'RTM id_deleted event must be preserved to next check');
+        $this->assertEquals(1, $eventsNew[8]['deleted'], 'RTM id_deleted event must be marked as deleted');
+
+        // Remove deleted RTM task id_deleted
+        $this->assertEquals(9, count($eventsNew), 'RTM id_deleted2 event must be removed');
     }
 }
