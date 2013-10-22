@@ -51,13 +51,24 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $rtm = new Rtm;
         $rtmClient = $rtm->getClient();
 
-        $rememberTheMilk = $this->getMock('RememberTheMilk', array('getListsFromAPI', 'getTasksFromAPI'));
+        $rememberTheMilk = $this->getMock('RememberTheMilk', array('getListsFromAPI', 'getTasksFromAPI', 'addTask', 'updateTask', 'deleteTask'));
+        $rtmLists = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList();
+        $rtmTasks = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks.json'))->getResponse()->getTasks()->getList()->getTaskseries();
         $rememberTheMilk->expects($this->any())
             ->method('getListsFromAPI')
-            ->will($this->returnValue($rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList()));
+            ->will($this->returnValue($rtmLists));
         $rememberTheMilk->expects($this->any())
             ->method('getTasksFromAPI')
-            ->will($this->returnValue($rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks.json'))->getResponse()->getTasks()->getList()->getTaskseries()));
+            ->will($this->returnValue($rtmTasks));
+        $rememberTheMilk->expects($this->any())
+            ->method('addTask')
+            ->will($this->returnValue($rtmTasks->getIterator()->valid()));
+        $rememberTheMilk->expects($this->any())
+            ->method('updateTask')
+            ->will($this->returnValue($rtmTasks->getIterator()->valid()));
+        $rememberTheMilk->expects($this->any())
+            ->method('deleteTask')
+            ->will($this->returnValue($rtmTasks->getIterator()->valid()));
 
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
