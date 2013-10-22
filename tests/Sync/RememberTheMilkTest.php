@@ -124,7 +124,7 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * [testGetListById description]
+     * [testTask description]
      *
      * @return none
      */
@@ -132,5 +132,14 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     {
         $task = $this->subject->task('dummy', '2012-10-31T10:25:00.000-05:00');
         $this->assertEquals('dummy ^2012-10-31T10:25:00.000-05:00', $task);
+    }
+
+    /**
+     * [testAddTask description]
+     *
+     * @return none
+     */
+    public function testAddTask()
+    {
     }
 }

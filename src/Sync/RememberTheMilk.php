@@ -226,4 +226,18 @@ class RememberTheMilk
 
         return $task;
     }
+
+    /**
+     * [addTask description]
+     *
+     * @param String        $listId     [description]
+     * @param String        $taskString [description]
+     *
+     * @return DataContainer            [description]
+     */
+    public function addTask($listId, $taskString)
+    {
+        return $this->_rtm->getService(Rtm::SERVICE_TASKS)->add($taskString, $listId);
+    }
+
 }
