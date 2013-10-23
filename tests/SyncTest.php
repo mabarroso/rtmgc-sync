@@ -402,18 +402,35 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $eventsNew  = array();
         $events     = $this->subject->gc->getEvents($match['google']['id']);
         $this->subject->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
-
-        // Add GC task id_e01 to GC: 2013-09-01T10:20:30.000Z 'e0 event unchanged all day'
+print_r($eventsNew);
+print_r($this->subject->results['log']);
+        // Add GC task id_e01 to GC: 2013-09-01T10:20:30.000Z 'e01 event created all day'
         $this->assertEquals('id_e01', $eventsNew[0]['google']['id'], 'GC id_e01 event must be sync');
         $this->assertEquals('taskseries_id', $eventsNew[0]['rtm']['id'], 'GC id_e01 event must be added to RTM');
         $this->assertEquals('taskserie_modified_date', $eventsNew[0]['rtm']['last'], 'GC id_e01 event must be added to RTM');
         $this->assertFalse($eventsNew[0]['conflict'], 'GC id_e01 event must not be conflicted');
 
+        // Add GC task id_e02 to RTM: 2013-09-01T10:20:30.000Z 'e02 event created appointment'
+        $this->assertEquals('id_e02', $eventsNew[1]['google']['id'], 'GC id_e02 event must be sync');
+        $this->assertEquals('taskseries_id', $eventsNew[1]['rtm']['id'], 'GC id_e02 event must be added to RTM');
+        $this->assertEquals('taskserie_modified_date', $eventsNew[1]['rtm']['last'], 'GC id_e02 event must be added to RTM');
+        $this->assertFalse($eventsNew[1]['conflict'], 'GC id_e01 event must not be conflicted');
 
-print_r($eventsNew);
+
+        // Preserve GC task 210834211 in RTM (halftrue) 2013-09-01T08:00:00Z 'e4 event not changed'
+        // Update GC task 210834264 in RTM: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed appointment'
+        // Preserve GC task 210833961 in RTM (halftrue) 2013-09-02T22:00:00Z 'e1 event changed all day'
+        // Preserve GC task 210833888 in RTM (halftrue) 2013-08-31T22:00:00Z 'e0 event unchanged all day'
+        // Preserve GC task 210834146 in RTM (halftrue) 2013-09-03T08:00:00Z 'e3 event unchanged appointment'
+        // Delete GC task id_deleted in RTM
+        // Remove deleted GC task id_deleted
+        //$this->assertEquals(9, count($eventsNew), 'RTM id_deleted2 event must be removed');
+
+
+//print_r($eventsNew);
 //print_r($eventsRTM);
 //print_r($eventsGC);
-print_r($this->subject->results['log']);
+//print_r($this->subject->results['log']);
 
         //TODO: halftrue
     }

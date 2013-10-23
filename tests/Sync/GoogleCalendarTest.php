@@ -102,9 +102,9 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
     {
         $events = $this->subject->getEvents('ppcemf16ugnpefspnmj9jjpd08@group.calendar.google.com');
 
-        $this->assertEquals('c1tv9h466dm3ifd3olott04200', $events[0]['id']);
-        $this->assertEquals('e0', $events[0]['summary']);
-        $this->assertEquals('e0 event unchanged all day', $events[0]['description']);
+        $this->assertEquals('id_e01', $events[0]['id']);
+        $this->assertEquals('e01', $events[0]['summary']);
+        $this->assertEquals('e01 event created all day', $events[0]['description']);
 
         $this->assertEquals('c1tv9h466dm3ifd3olott04205', $events[5]['id']);
         $this->assertEquals('e5', $events[5]['summary']);
@@ -118,8 +118,8 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
      */
     public function testGetEventById()
     {
-        $event = $this->subject->getEventById('ppcemf16ugnpefspnmj9jjpd08@group.calendar.google.com', 'c1tv9h466dm3ifd3olott04200');
-        $this->assertEquals('e0', $event['summary']);
+        $event = $this->subject->getEventById('ppcemf16ugnpefspnmj9jjpd08@group.calendar.google.com', 'id_e01');
+        $this->assertEquals('e01', $event['summary']);
 
         $event = $this->subject->getEventById('ppcemf16ugnpefspnmj9jjpd08@group.calendar.google.com', 'c1tv9h466dm3ifd3olott04205');
         $this->assertEquals('e5', $event['summary']);
