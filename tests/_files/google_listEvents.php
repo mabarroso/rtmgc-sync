@@ -91,13 +91,13 @@ $listEvents = array (
     array (
       'kind' => 'calendar#event',
       'etag' => '"riS6FXjHtObfGZnFmNP8yHjrZcU/MTI1MjE0NzIwOTM0NzAw02"',
-      'id' => 'c1tv9h466dm3ifd3olott04202',
+      'id' => 'id_e03',
       'status' => 'confirmed',
       'htmlLink' => 'https://www.google.com/calendar/event?eid=YzF0djloNDY2ZG0zaWZkM29sb3R0MDQyMDQgOHZ1OXMzbTVyMXIyamFjYmlrYnZhajc1ZG9A02',
       'created' => '2013-09-03T10:20:30.000Z',
       'updated' => '2013-09-03T10:20:30.000Z',
-      'summary' => 'e2',
-      'description' => 'e2 event changed rtm all day',
+      'summary' => 'e03',
+      'description' => 'e03 event not changed',
       'location' => 'Madrid',
       'creator' =>
       array (
