@@ -436,8 +436,6 @@ print_r($this->subject->results['log']);
         $this->assertEquals('taskserie_modified_date', $eventsNew[4]['rtm']['last'], 'GC id_e05 event must be updated in RTM');
         $this->assertFalse($eventsNew[4]['conflict'], 'GC id_e05 event must not be conflicted');
 
-        // Preserve GC task 210833888 in RTM (halftrue) 2013-08-31T22:00:00Z 'e0 event unchanged all day'
-        // Preserve GC task 210834146 in RTM (halftrue) 2013-09-03T08:00:00Z 'e3 event unchanged appointment'
         // Delete GC task id_deleted in RTM
         // Remove deleted GC task id_deleted
         //$this->assertEquals(9, count($eventsNew), 'RTM id_deleted2 event must be removed');
