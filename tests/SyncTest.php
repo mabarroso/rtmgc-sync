@@ -418,10 +418,10 @@ print_r($this->subject->results['log']);
 
         // Preserve GC task id_e03 in RTM (halftrue) 2013-09-01T08:00:00Z 'e03 event not changed'
         $this->assertEquals('id_e03', $eventsNew[2]['google']['id'], 'GC id_e03 event must be sync');
-        $this->assertEquals('c1tv9h466dm3ifd3olott04204', $eventsNew[2]['google']['id'], 'GC id_e03 event must be preserved to next check');
-        $this->assertEquals('2013-09-02T20:20:30.000Z', $eventsNew[2]['google']['last'], 'GC id_e03 event must be preserved to next check');
-        $this->assertEquals(1, $eventsNew[2]['halftrue'], 'RTM 210834211 event must be marked as half check');
-        $this->assertFalse($eventsNew[2]['conflict'], 'RTM 210834211 event must not be conflicted');
+        $this->assertEquals('210833888', $eventsNew[2]['rtm']['id'], 'GC id_e03 event must be preserved to next check');
+        $this->assertEquals('2013-09-01T10:20:30Z', $eventsNew[2]['rtm']['last'], 'GC id_e03 event must be preserved to next check');
+        $this->assertEquals(1, $eventsNew[2]['halftrue'], 'GC id_e03 event must be marked as half check');
+        $this->assertFalse($eventsNew[2]['conflict'], 'GC id_e03 event must not be conflicted');
 
         // Update GC task 210833961 in RTM:  2013-09-02T22:00:00Z 'e1 event changed all day'
         // Update GC task 210834264 in RTM: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed appointment'
