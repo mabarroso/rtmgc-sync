@@ -130,13 +130,13 @@ $listEvents = array (
     array (
       'kind' => 'calendar#event',
       'etag' => '"riS6FXjHtObfGZnFmNP8yHjrZcU/MTI1MjE0NzIwOTM0NzAw03"',
-      'id' => 'c1tv9h466dm3ifd3olott04203',
+      'id' => 'id_e04',
       'status' => 'confirmed',
       'htmlLink' => 'https://www.google.com/calendar/event?eid=YzF0djloNDY2ZG0zaWZkM29sb3R0MDQyMDQgOHZ1OXMzbTVyMXIyamFjYmlrYnZhajc1ZG9A03',
       'created' => '2013-09-03T10:20:30.000Z',
       'updated' => '2013-09-03T10:20:30.000Z',
-      'summary' => 'e3',
-      'description' => 'e3 event unchanged appointment',
+      'summary' => 'e04',
+      'description' => 'e04 event changed all day',
       'location' => 'Madrid',
       'creator' =>
       array (
@@ -169,13 +169,13 @@ $listEvents = array (
     array (
       'kind' => 'calendar#event',
       'etag' => '"riS6FXjHtObfGZnFmNP8yHjrZcU/MTI1MjE0NzIwOTM0NzAw04"',
-      'id' => 'c1tv9h466dm3ifd3olott04204',
+      'id' => 'id_e05',
       'status' => 'confirmed',
       'htmlLink' => 'https://www.google.com/calendar/event?eid=YzF0djloNDY2ZG0zaWZkM29sb3R0MDQyMDQgOHZ1OXMzbTVyMXIyamFjYmlrYnZhajc1ZG9A04',
       'created' => '2013-09-02T20:20:30.000Z',
       'updated' => '2013-09-02T20:20:30.000Z',
-      'summary' => 'e4',
-      'description' => 'e4 event changed google appointment',
+      'summary' => 'e05',
+      'description' => 'e05 event changed appointment',
       'location' => 'Madrid',
       'creator' =>
       array (

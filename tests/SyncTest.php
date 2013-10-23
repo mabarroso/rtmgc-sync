@@ -403,6 +403,7 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $events     = $this->subject->gc->getEvents($match['google']['id']);
         $this->subject->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
 print_r($eventsNew);
+//print_r($eventsGC);
 print_r($this->subject->results['log']);
         // Add GC task id_e01 to GC: 2013-09-01T10:20:30.000Z 'e01 event created all day'
         $this->assertEquals('id_e01', $eventsNew[0]['google']['id'], 'GC id_e01 event must be sync');
@@ -423,8 +424,18 @@ print_r($this->subject->results['log']);
         $this->assertEquals(1, $eventsNew[2]['halftrue'], 'GC id_e03 event must be marked as half check');
         $this->assertFalse($eventsNew[2]['conflict'], 'GC id_e03 event must not be conflicted');
 
-        // Update GC task 210833961 in RTM:  2013-09-02T22:00:00Z 'e1 event changed all day'
-        // Update GC task 210834264 in RTM: (2013-09-01T20:20:30Z != 2013-09-01T10:20:30Z) 2013-09-02T08:00:00Z 'e5 event changed appointment'
+        // Update GC task id_e04 in RTM:  2013-09-02T22:00:00Z 'e04 event changed all day'
+        $this->assertEquals('id_e04', $eventsNew[3]['google']['id'], 'GC id_e04 event must be sync');
+        $this->assertEquals('210833888', $eventsNew[3]['rtm']['id'], 'GC id_e04 event must be the correct id in RTM');
+        $this->assertEquals('taskserie_modified_date', $eventsNew[3]['rtm']['last'], 'GC id_e04 event must be updated in RTM');
+        $this->assertFalse($eventsNew[3]['conflict'], 'GC id_e04 event must not be conflicted');
+
+        // Update GC task id_e05 in RTM 'e05 event changed appointment'
+        $this->assertEquals('id_e05', $eventsNew[4]['google']['id'], 'GC id_e05 event must be sync');
+        $this->assertEquals('210833888', $eventsNew[4]['rtm']['id'], 'GC id_e05 event must be the correct id in RTM');
+        $this->assertEquals('taskserie_modified_date', $eventsNew[4]['rtm']['last'], 'GC id_e05 event must be updated in RTM');
+        $this->assertFalse($eventsNew[4]['conflict'], 'GC id_e05 event must not be conflicted');
+
         // Preserve GC task 210833888 in RTM (halftrue) 2013-08-31T22:00:00Z 'e0 event unchanged all day'
         // Preserve GC task 210834146 in RTM (halftrue) 2013-09-03T08:00:00Z 'e3 event unchanged appointment'
         // Delete GC task id_deleted in RTM

@@ -422,6 +422,7 @@ class Sync
             if (!isset($eventsGC[$eventId])) {
                 // New: Not in GC and RTM
                 // TODO: Location
+                // TODO: EndDate
                 $date = isset($event['start']['dateTime']) ? $event['start']['dateTime']:$event['start']['date'];
                 $taskString = $this->rtm->task($event['summary'], $date);
                 $createdTask = $this->rtm->addTask($listId, $taskString);
@@ -440,8 +441,27 @@ class Sync
                     $synced[$eventId] = true;
                     $this->ok("Add GC event $eventId to RTM: $date '{$event['summary']}' '{$event['description']}'");
             } else if ($event['updated'] != $eventsGC[$eventId]['last']) {
-                // TODO: syncMatchGC2RTM updated
-                $this->ok("-->UPDATED GC event $eventId in RTM (halftrue) {$event['updated']} '{$event['summary']}' '{$event['description']}'");
+                // updated in GC
+                $taskId =  $this->data['sync'][$match['id']][$eventsGC[$eventId]['index']]['rtm']['id'];
+                $listId =  $this->data['sync'][$match['id']][$eventsGC[$eventId]['index']]['rtm']['list_id'];
+                $date = isset($event['start']['dateTime']) ? $event['start']['dateTime']:$event['start']['date'];
+                // TODO: Location
+                // TODO: EndDate
+                $updatedTask = $this->rtm->updateTask($taskId, $listId, $event['summary'], $date);
+                $eventsNew[] = array(
+                    'rtm' => array(
+                        'list_id' => $listId,
+                        'id' => $taskId,
+                        'last' => $updatedTask->getModified()
+                    ),
+                    'google' => array(
+                        'id' => $eventId,
+                        'last' => $event['updated']
+                    ),
+                    'conflict' => false
+                );
+                $synced[$taskId] = true;
+                $this->ok("Update GC event $eventId in RTM {$event['updated']} '{$event['summary']}' '{$event['description']}'");
             } else {
                 // no changes
                 $eventsNew[] = $this->data['sync'][$match['id']][$eventsGC[$eventId]['index']];
