@@ -381,7 +381,7 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('id_to_delete', $eventsNew[8]['google']['id'], 'RTM id_deleted event must be preserved to next check');
         $this->assertEquals(1, $eventsNew[8]['deleted'], 'RTM id_deleted event must be marked as deleted');
 
-        // Remove deleted RTM task id_deleted
+        // Remove deleted RTM task id_deleted2
         $this->assertEquals(9, count($eventsNew), 'RTM id_deleted2 event must be removed');
     }
 
@@ -402,9 +402,7 @@ class SyncTest extends PHPUnit_Framework_TestCase
         $eventsNew  = array();
         $events     = $this->subject->gc->getEvents($match['google']['id']);
         $this->subject->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
-print_r($eventsNew);
-//print_r($eventsGC);
-print_r($this->subject->results['log']);
+
         // Add GC task id_e01 to GC: 2013-09-01T10:20:30.000Z 'e01 event created all day'
         $this->assertEquals('id_e01', $eventsNew[0]['google']['id'], 'GC id_e01 event must be sync');
         $this->assertEquals('taskseries_id', $eventsNew[0]['rtm']['id'], 'GC id_e01 event must be added to RTM');
@@ -437,15 +435,11 @@ print_r($this->subject->results['log']);
         $this->assertFalse($eventsNew[4]['conflict'], 'GC id_e05 event must not be conflicted');
 
         // Delete GC task id_deleted in RTM
-        // Remove deleted GC task id_deleted
-        //$this->assertEquals(9, count($eventsNew), 'RTM id_deleted2 event must be removed');
+        $this->assertEquals('id_deleted', $eventsNew[5]['google']['id'], 'GC id_deleted event must be sync');
+        $this->assertEquals('id_to_delete', $eventsNew[5]['rtm']['id'], 'GC id_deleted event must be preserved to next check');
+        $this->assertEquals(1, $eventsNew[5]['deleted'], 'GC id_deleted event must be marked as deleted');
 
-
-//print_r($eventsNew);
-//print_r($eventsRTM);
-//print_r($eventsGC);
-//print_r($this->subject->results['log']);
-
-        //TODO: halftrue
+        // Remove deleted GC task id_deleted2
+        $this->assertEquals(6, count($eventsNew), 'GC id_deleted2 event must be removed');
     }
 }

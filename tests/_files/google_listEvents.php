@@ -203,46 +203,7 @@ $listEvents = array (
       array (
         'useDefault' => true,
       ),
-    ),
-    5 =>
-    array (
-      'kind' => 'calendar#event',
-      'etag' => '"riS6FXjHtObfGZnFmNP8yHjrZcU/MTI1MjE0NzIwOTM0NzAw05"',
-      'id' => 'c1tv9h466dm3ifd3olott04205',
-      'status' => 'confirmed',
-      'htmlLink' => 'https://www.google.com/calendar/event?eid=YzF0djloNDY2ZG0zaWZkM29sb3R0MDQyMDQgOHZ1OXMzbTVyMXIyamFjYmlrYnZhajc1ZG9A05',
-      'created' => '2013-09-01T10:20:30.000Z',
-      'updated' => '2013-09-01T10:20:30.000Z',
-      'summary' => 'e5',
-      'description' => 'e5 event changed rtm appointment',
-      'location' => 'Madrid',
-      'creator' =>
-      array (
-        'email' => 'usertest1@gmail.com',
-        'displayName' => 'User Test Name',
-      ),
-      'organizer' =>
-      array (
-        'email' => '8vu9s3m5r1r2jacbikbvaj75do@group.calendar.google.com',
-        'displayName' => 'RTM List 1',
-        'self' => true,
-      ),
-      'start' =>
-      array (
-        'dateTime' => '2013-09-01T10:00:00+02:00',
-      ),
-      'end' =>
-      array (
-        'dateTime' => '2013-09-01T11:00:00+02:00',
-      ),
-      'transparency' => 'transparent',
-      'iCalUID' => 'c1tv9h466dm3ifd3olott04204@google.com',
-      'sequence' => 0,
-      'reminders' =>
-      array (
-        'useDefault' => true,
-      ),
-    ),
-  ),
+    )
+  )
 )
 ?>

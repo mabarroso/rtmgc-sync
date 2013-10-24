@@ -133,7 +133,6 @@
                 "conflict": false,
                 "deleted": true
             }
-
         ],
         "2": [
             {
@@ -171,6 +170,31 @@
                     "last": "2013-09-01T10:00:00.000Z"
                 },
                 "conflict": false
+            },
+            {
+                "rtm": {
+                    "list_id": "25512901",
+                    "id": "id_to_delete",
+                    "last": "2013-09-01T10:20:30Z"
+                },
+                "google": {
+                    "id": "id_deleted",
+                    "last": "2013-09-01T10:20:30.000Z"
+                },
+                "conflict": false
+            },
+            {
+                "rtm": {
+                    "list_id": "25512901",
+                    "id": "id_to_delete2",
+                    "last": "2013-09-01T10:20:30Z"
+                },
+                "google": {
+                    "id": "id_deleted2",
+                    "last": "2013-09-01T10:20:30.000Z"
+                },
+                "conflict": false,
+                "deleted": true
             }
         ]
     }

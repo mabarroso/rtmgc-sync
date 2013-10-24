@@ -460,7 +460,7 @@ class Sync
                     ),
                     'conflict' => false
                 );
-                $synced[$taskId] = true;
+                $synced[$eventId] = true;
                 $this->ok("Update GC event $eventId in RTM {$event['updated']} '{$event['summary']}' '{$event['description']}'");
             } else {
                 // no changes
@@ -472,8 +472,30 @@ class Sync
         }
 
         // check deleted
-        // TODO: syncMatchGC2RTM deleted
-
-        echo "  syncMatchGC2RTM\n";
+        //   Event was deleted when exists in previous sync but not in current GC event list
+        foreach ($this->data['sync'][$match['id']] as $eventCouple) {
+            $taskId = $eventCouple['rtm']['id'];
+            $eventId = $eventCouple['google']['id'];
+            if (!isset($synced[$eventId])) {
+                if (isset($eventCouple['deleted'])) {
+                    // skip, deleted in previous sync
+                    $this->ok("Skip GC event $eventId already deleted'");
+                } else {
+                    $this->gc->deleteEvent($calendarId, $eventId);
+                    $eventsNew[] = array(
+                        'rtm' => array(
+                            'list_id' => $listId,
+                            'id' => $taskId,
+                        ),
+                        'google' => array(
+                            'id' => $eventId
+                        ),
+                        'conflict' => false,
+                        'deleted' => true
+                    );
+                    $this->ok("Delete GC event $eventId in RTM ($taskId)");
+                }
+            }
+        }
     }
 }
