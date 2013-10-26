@@ -283,4 +283,17 @@ class GoogleCalendar
 
         return $deletedEvent;
     }
+
+    /**
+     * [updateCalendarName description]
+     *
+     * @param [type] $calendarId [description]
+     * @param [type] $name       [description]
+     *
+     * @return [type]             [description]
+     */
+    public function updateCalendarName($calendarId, $name)
+    {
+
+    }
 }

@@ -124,4 +124,17 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
         $event = $this->subject->getEventById('ppcemf16ugnpefspnmj9jjpd08@group.calendar.google.com', 'id_e05');
         $this->assertEquals('e05', $event['summary']);
     }
+
+    /**
+     * [testUpdateCalendarName description]
+     *
+     * @return [type] [description]
+     */
+    public function testUpdateCalendarName()
+    {
+        $this->subject->gc->updateCalendarName('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com', 'THE_NEW_NAME');
+
+        $calendar = $this->subject->getCalendarById('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com');
+        $this->assertEquals('THE_NEW_NAME', $calendar['summary']);
+    }
 }
