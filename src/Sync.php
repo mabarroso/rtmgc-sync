@@ -230,7 +230,7 @@ class Sync
         }
 
         $this->getLists();
-        //TODO: *** $this->getCalendars();
+        $this->getCalendars();
 
         $newSync = array();
         foreach ( $this->data['configuration']['Match'] as $match) {
@@ -279,10 +279,10 @@ class Sync
         $this->fillEventsByMatchId($match['id'], $eventsRTM, $eventsGC);
 
         $tasks      = $this->rtm->getTasks($match['rtm']['id']);
-        //TODO: *** $events     = $this->gc->getEvents($match['google']['id']);
+        $events     = $this->gc->getEvents($match['google']['id']);
 
         $this->syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
-        $this->syncMatchGC2RTM($events, $eventsGC, $eventsRTM);
+        $this->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
         return $eventsNew;
     }
 
