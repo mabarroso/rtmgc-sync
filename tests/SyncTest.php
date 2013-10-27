@@ -442,4 +442,68 @@ class SyncTest extends PHPUnit_Framework_TestCase
         // Remove deleted GC task id_deleted2
         $this->assertEquals(6, count($eventsNew), 'GC id_deleted2 event must be removed');
     }
+
+    /**
+     * [testSyncMatchNames description]
+     *
+     * @return none
+     */
+    public function testSyncMatchNames()
+    {
+        $match = $this->subject->data['configuration']['Match'][0];
+        $this->subject->getLists();
+        $this->subject->getCalendars();
+
+        // No changes
+        $match['rtm']['name'] = 'THE_NAME';
+        $this->subject->lists[$match['rtm']['id']]->setName('THE_NAME');
+
+        $match['google']['name'] = 'THE_NAME';
+        $this->subject->gc->updateCalendarName($match['google']['id'], 'THE_NAME');
+        $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
+        $calendar['summary'] = 'THE_NAME';
+
+        $this->subject->syncMatchNames($match);
+
+        $this->assertEquals('THE_NAME', $match['rtm']['name']);
+        $this->assertEquals('THE_NAME', $match['google']['name']);
+        $this->assertEquals($match['rtm']['name'], $this->subject->lists[$match['rtm']['id']]->getName());
+        $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
+        $this->assertEquals($match['google']['name'],  $calendar['summary']);
+
+        // RTM Changed
+        $match['rtm']['name'] = 'THE_NAME';
+        $this->subject->lists[$match['rtm']['id']]->setName('NEW_NAME');
+
+        $match['google']['name'] = 'THE_NAME';
+        $this->subject->gc->updateCalendarName($match['google']['id'], 'THE_NAME');
+        $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
+        $calendar['summary'] = 'THE_NAME';
+
+        $this->subject->syncMatchNames($match);
+
+        $this->assertEquals('NEW_NAME', $match['rtm']['name']);
+        $this->assertEquals('NEW_NAME', $match['google']['name']);
+        $this->assertEquals($match['rtm']['name'], $this->subject->lists[$match['rtm']['id']]->getName());
+        $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
+        $this->assertEquals($match['google']['name'],  $calendar['summary']);
+
+        // Google Changed
+        $match['rtm']['name'] = 'THE_NAME';
+        $this->subject->lists[$match['rtm']['id']]->setName('THE_NAME');
+
+        $match['google']['name'] = 'THE_NAME';
+        $this->subject->gc->updateCalendarName($match['google']['id'], 'NEW_NAME');
+        $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
+        $calendar['summary'] = 'NEW_NAME';
+
+        $this->subject->syncMatchNames($match);
+
+        $this->assertEquals('NEW_NAME', $match['rtm']['name']);
+        $this->assertEquals('NEW_NAME', $match['google']['name']);
+        $this->assertEquals($match['rtm']['name'], $this->subject->lists[$match['rtm']['id']]->getName());
+        $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
+        $this->assertEquals($match['google']['name'],  $calendar['summary']);
+
+    }
 }

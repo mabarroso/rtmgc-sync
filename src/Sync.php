@@ -281,9 +281,22 @@ class Sync
         $tasks      = $this->rtm->getTasks($match['rtm']['id']);
         $events     = $this->gc->getEvents($match['google']['id']);
 
+        $this->syncMatchNames($match);
         $this->syncMatchRTM2GC($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
         $this->syncMatchGC2RTM($match, $tasks, $events, $eventsNew, $eventsGC, $eventsRTM);
         return $eventsNew;
+    }
+
+    /**
+     * [syncMatchNames description]
+     *
+     * @param [type] &$match [description]
+     *
+     * @return [type]        [description]
+     */
+    public function syncMatchNames(&$match)
+    {
+
     }
 
     /**
