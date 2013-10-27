@@ -46,7 +46,7 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
 
-        $this->subject = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI'));
+        $this->subject = $this->getMock('GoogleCalendar', array('getCalendarsFromAPI', 'getEventsFromAPI', 'update'));
         $this->subject->expects($this->any())
             ->method('getCalendarsFromAPI')
             ->will($this->returnValue($listCalendarList));
@@ -132,7 +132,7 @@ class GoogleCalendarTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateCalendarName()
     {
-        $this->subject->gc->updateCalendarName('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com', 'THE_NEW_NAME');
+        $this->subject->updateCalendarName('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com', 'THE_NEW_NAME');
 
         $calendar = $this->subject->getCalendarById('ppcemf16ugnpfspnmj9jjpde08@group.calendar.google.com');
         $this->assertEquals('THE_NEW_NAME', $calendar['summary']);
