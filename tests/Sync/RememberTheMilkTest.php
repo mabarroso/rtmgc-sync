@@ -161,4 +161,12 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
     {
     }
 
+    /**
+     * [testUpdateListName description]
+     *
+     * @return [type] [description]
+     */
+    public function testUpdateListName()
+    {
+    }
 }

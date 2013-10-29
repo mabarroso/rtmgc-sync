@@ -295,4 +295,20 @@ class RememberTheMilk
         return $deletedTask;
     }
 
+    /**
+     * [updateListName description]
+     *
+     * @param [type] $listId [description]
+     * @param [type] $name   [description]
+     *
+     * @return [type]        [description]
+     */
+    public function updateListName($listId, $name)
+    {
+        $list = $this->getListById($listId);
+
+        // TODO
+
+        return $list;
+    }
 }
