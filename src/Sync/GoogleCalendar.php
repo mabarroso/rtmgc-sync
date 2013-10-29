@@ -294,25 +294,18 @@ class GoogleCalendar
      */
     public function updateCalendarName($calendarId, $summary)
     {
-file_put_contents("/tmp/a", "updateCalendarName\n");
-
         $calendar = new Google_CalendarListEntry();
         $calendar->setSummary($summary);
-
         $createdCalendar = $this->_calendar->update($calendarId, $calendar); //Returns array not an object
-
         // Update list of calendars
         if (!$this->_calendars) $this->_loadCalendars();
         if (count($this->_calendars['items']) > 0) {
             foreach ($this->_calendars['items'] as $index => $calendar) {
-file_put_contents("/tmp/a", "$index\n", FILE_APPEND);
                 if ($calendar['id'] == $calendarId) {
                     $this->_calendars['items'][$index]['summary'] = $summary;
-file_put_contents("/tmp/a", "  <- changed\n", FILE_APPEND);
                 }
             }
         }
-
         return $createdCalendar;
     }
 }

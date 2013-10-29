@@ -107,9 +107,17 @@ class SyncTest extends PHPUnit_Framework_TestCase
                     )
                 )
             );
+
         $googleCalendar->expects($this->any())
             ->method('deleteEvent')
             ->will($this->returnValue(""));
+
+        $google_CalendarService = $this->getMock('Object', array('update'));
+        $google_CalendarService->expects($this->any())
+            ->method('update')
+            ->will($this->returnValue(1));
+        $googleCalendar->_calendar = $google_CalendarService;
+
 
         $this->subject->setMocks($rememberTheMilk, $googleCalendar);
 
