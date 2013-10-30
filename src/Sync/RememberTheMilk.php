@@ -258,11 +258,13 @@ class RememberTheMilk
         $realTaskId = $this->getTaskById($listId, $taskId)->get('task')->get('id');
 
         if ($name) {
-            $updatedTask = $this->_calendar->events->setName($realTaskId, $listId, $taskSeriesId, $name);
+            //$updatedTask = $this->_calendar->events->setName($realTaskId, $listId, $taskSeriesId, $name);
+            //TODO
         }
 
         if ($startDate) {
-            $updatedTask = $this->_calendar->events->setDueDate($realTaskId, $listId, $taskSeriesId, $startDate, true, true);
+            //$updatedTask = $this->_calendar->events->setDueDate($realTaskId, $listId, $taskSeriesId, $startDate, true, true);
+            //TODO
         }
 
         if ($endDate) {
@@ -307,7 +309,7 @@ class RememberTheMilk
     {
         $list = $this->getListById($listId);
 
-        // TODO
+        $list->setName($listId, $name);
 
         return $list;
     }

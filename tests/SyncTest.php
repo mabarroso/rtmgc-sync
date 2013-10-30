@@ -507,8 +507,8 @@ class SyncTest extends PHPUnit_Framework_TestCase
 
         $this->subject->syncMatchNames($match);
 
-        $this->assertEquals('NEW_NAME', $match['rtm']['name']);
         $this->assertEquals('NEW_NAME', $match['google']['name']);
+        $this->assertEquals('NEW_NAME', $match['rtm']['name']);
         $this->assertEquals($match['rtm']['name'], $this->subject->lists[$match['rtm']['id']]->getName());
         $calendar = $this->subject->gc->getCalendarById($match['google']['id']);
         $this->assertEquals($match['google']['name'],  $calendar['summary']);
