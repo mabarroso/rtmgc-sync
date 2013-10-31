@@ -74,6 +74,14 @@ class SyncTest extends PHPUnit_Framework_TestCase
             ->method('deleteTask')
             ->will($this->returnValue($rtmTask));
 
+        $rtmAdapter = $this->getMock('Object', array('setListName'));
+        $tmpLists = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList();
+        $rtmAdapter->expects($this->any())
+            ->method('update')
+            ->will($this->returnValue($tmpLists));
+
+        $rememberTheMilk->_rtm = $rtmAdapter;
+
         include 'tests/_files/google_listCalendarList.php';
         include 'tests/_files/google_listEvents.php';
 

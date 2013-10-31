@@ -31,6 +31,7 @@ use Rtm\Rtm;
  */
 class RtmAdapter
 {
+    public $_rtm;
 
     /**
      * [connect description]

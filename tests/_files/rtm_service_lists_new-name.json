@@ -1,0 +1,19 @@
+{
+   "rsp":{
+      "stat":"ok",
+      "lists":{
+         "list":[
+            {
+               "id":"25392426",
+               "name":"NEW_NAME",
+               "deleted":"0",
+               "locked":"0",
+               "archived":"0",
+               "position":"0",
+               "smart":"0",
+               "sort_order":"0"
+            },
+         ]
+      }
+   }
+}
