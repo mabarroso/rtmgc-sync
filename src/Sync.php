@@ -304,11 +304,13 @@ echo " 1 {$calendar['summary']} != {$match['google']['name']}\n";
             $match['rtm']['name'] = $match['google']['name'];
             $this->rtm->updateListName($match['rtm']['id'], $match['google']['name']);
 echo " - {$calendar['summary']} != {$match['google']['name']}\n";
+echo " - {$this->lists[$match['rtm']['id']]->getName()} != {$match['rtm']['name']}\n";
         } else if ($this->lists[$match['rtm']['id']]->getName() != $match['rtm']['name']) {
 echo " 2 {$this->lists[$match['rtm']['id']]->getName()} != {$match['rtm']['name']}\n";
             $match['rtm']['name'] = $this->lists[$match['rtm']['id']]->getName();
             $match['google']['name'] = $match['rtm']['name'];
             $this->gc->updateCalendarName($match['google']['id'], $match['rtm']['name']);
+echo " - {$calendar['summary']} != {$match['google']['name']}\n";
 echo " - {$this->lists[$match['rtm']['id']]->getName()} != {$match['rtm']['name']}\n";
         }
     }

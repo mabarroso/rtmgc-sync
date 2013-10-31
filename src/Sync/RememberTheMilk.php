@@ -15,7 +15,7 @@
  * @since     File available since Release 0.1
  */
 
-use Rtm\Rtm;
+require_once 'RtmAdapter.php';
 
 /**
  * RememberTheMilk
@@ -43,6 +43,7 @@ class RememberTheMilk
     public function __construct()
     {
         $this->clear();
+        $this->_rtm = new RtmAdapter;
     }
 
     /**
@@ -55,6 +56,7 @@ class RememberTheMilk
         $this->_lists = false;
         $this->_tasks = array();
     }
+
     /**
      * [connect description]
      *
@@ -68,16 +70,9 @@ class RememberTheMilk
      */
     public function connect($apiKey, $secret, $token)
     {
-        $this->_rtm = new Rtm;
-        $this->_rtm->setApiKey($apiKey);
-        $this->_rtm->setSecret($secret);
-        $this->_rtm->setAuthToken($token);
-
         try {
-            // Check authentication token
-            $this->_rtm->getService(Rtm::SERVICE_AUTH)->checkToken();
+            $this->_rtm->connect($apiKey, $secret, $token);
         } catch(Exception $e) {
-            $this->_rtm = false;
             throw new Exception($e->getMessage());
         }
     }
@@ -89,8 +84,7 @@ class RememberTheMilk
      */
     public function getListsFromAPI()
     {
-        if (!$this->_rtm) return;
-        return $this->_rtm->getService(Rtm::SERVICE_LISTS)->getList();
+        return $this->_rtm->getList();
 
     }
 
@@ -103,8 +97,7 @@ class RememberTheMilk
      */
     public function getTasksFromAPI($listId)
     {
-        if (!$this->_rtm) return;
-        return $this->_rtm->getService(Rtm::SERVICE_TASKS)->getList(null, $listId)->getTaskseries();
+        return $this->_rtm->getTasks($listId);
     }
 
     /**
@@ -237,7 +230,7 @@ class RememberTheMilk
      */
     public function addTask($listId, $taskString)
     {
-        return $this->_rtm->getService(Rtm::SERVICE_TASKS)->add($taskString, $listId);
+        return $this->_rtm->addTask($listId, $taskString);
     }
 
     /**
@@ -292,7 +285,8 @@ class RememberTheMilk
         $taskSeriesId = $taskId;
         $realTaskId = $this->getTaskById($listId, $taskId)->get('task')->get('id');
 
-        $deletedTask = $this->_calendar->events->delete($realTaskId, $listId, $taskSeriesId);
+        //$deletedTask = $this->_calendar->events->delete($realTaskId, $listId, $taskSeriesId);
+        //TODO
 
         return $deletedTask;
     }
@@ -307,9 +301,7 @@ class RememberTheMilk
      */
     public function updateListName($listId, $name)
     {
-        $list = $this->getListById($listId);
-
-        $list->setName($listId, $name);
+        $list = $this->_rtm->setListName($listId, $name);
 
         return $list;
     }
