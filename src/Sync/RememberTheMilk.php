@@ -31,7 +31,7 @@ require_once 'RtmAdapter.php';
  */
 class RememberTheMilk
 {
-    private $_rtm;
+    public $_rtm;
     private $_lists;
     private $_tasks;
 
@@ -142,18 +142,22 @@ class RememberTheMilk
     /**
      * [getListById description]
      *
-     * @param [type] $id [description]
+     * @param [type] $listId [description]
      *
-     * @return none
+     * @return mixed Rtm\DataContainer of false if not found
      */
-    public function getListById($id)
+    public function getListById($listId)
     {
         if (!$this->_lists) $this->_loadLists();
-        foreach ($this->_lists as $list) {
-            if ($id == $list->getId()) {
-                return $list;
+
+        $listIterator = $this->_lists->getIterator();
+        while ($listIterator->valid()) {
+            if ($listId == $listIterator->current()->getId()) {
+                return $listIterator->current();
             }
+            $listIterator->next();
         }
+
         return false;
     }
 
@@ -301,8 +305,10 @@ class RememberTheMilk
      */
     public function updateListName($listId, $name)
     {
-        $list = $this->_rtm->setListName($listId, $name);
+        $listUpdated = $this->_rtm->setListName($listId, $name);
 
-        return $list;
+        $this->_loadLists();
+
+        return $listUpdated;
     }
 }

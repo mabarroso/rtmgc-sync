@@ -55,9 +55,9 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_tasks.json'))->getResponse()->getTasks()->getList()->getTaskseries()));
 
         $rtmAdapter = $this->getMock('Object', array('setListName'));
-        $tmpLists = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists.json'))->getResponse()->getLists()->getList();
+        $tmpLists = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_list_new-name.json'))->getResponse()->getLists()->getList()->getIterator()->current();
         $rtmAdapter->expects($this->any())
-            ->method('update')
+            ->method('setListName')
             ->will($this->returnValue($tmpLists));
 
         $this->subject->_rtm = $rtmAdapter;
@@ -177,10 +177,25 @@ class RememberTheMilkTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateListName()
     {
-        $this->subject->updateListName('25392426', 'THE_NEW_NAME');
+        $rtm = new Rtm;
+        $rtmClient = $rtm->getClient();
 
-        $calendar = $this->subject->getCalendarById('25392426');
-        $this->assertEquals('THE_NEW_NAME', $this->lists['25392426']->getName());
+        $subject = $this->getMock('RememberTheMilk', array('getListsFromAPI'));
+        $subject->expects($this->any())
+            ->method('getListsFromAPI')
+            ->will($this->returnValue($rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_lists_new-name.json'))->getResponse()->getLists()->getList()));
 
+        $rtmAdapter = $this->getMock('Object', array('setListName'));
+        $tmpLists = $rtmClient->createResponse(file_get_contents('tests/_files/rtm_service_list_new-name.json'))->getResponse()->getLists()->getList()->getIterator()->current();
+        $rtmAdapter->expects($this->any())
+            ->method('setListName')
+            ->will($this->returnValue($tmpLists));
+        $subject->_rtm = $rtmAdapter;
+
+
+        $subject->updateListName('25392426', 'NEW_NAME');
+
+        $list = $subject->getListById('25392426');
+        $this->assertEquals('NEW_NAME', $list->getName());
     }
 }
